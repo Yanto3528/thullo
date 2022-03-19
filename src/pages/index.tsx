@@ -1,9 +1,15 @@
-import { hello } from '@/components'
+import styled from 'styled-components'
 
-import styles from '../styles/Home.module.css'
+const Wrapper = styled.div`
+  font-size: 50px;
+`
 
 const Home = () => {
-  return <div className={styles.container}>{hello}</div>
+  return (
+    <Wrapper>
+      <p>Hello</p>
+    </Wrapper>
+  )
 }
 
 export default Home
