@@ -1,6 +1,12 @@
 import { DefaultTheme } from 'styled-components'
 
 export const theme: DefaultTheme = {
+  radius: {
+    sm: '0.4rem',
+    md: '0.8rem',
+    pill: '2.5rem',
+    rounded: '50%',
+  },
   colors: {
     primary: '#2F80ED',
     primaryLight: '#DAE4FD',

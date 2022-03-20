@@ -16,3 +16,10 @@ export interface Color {
   lightBlue: string
   lightGreen: string
 }
+
+export interface Radius {
+  sm: string
+  md: string
+  pill: string
+  rounded: string
+}
