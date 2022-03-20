@@ -1,14 +1,11 @@
-import styled from 'styled-components'
-
-const Wrapper = styled.div`
-  font-size: 50px;
-`
+import { Header } from '@/components'
 
 const Home = () => {
   return (
-    <Wrapper>
+    <>
+      <Header />
       <p>Hello</p>
-    </Wrapper>
+    </>
   )
 }
 

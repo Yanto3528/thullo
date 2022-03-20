@@ -1,1 +1,1 @@
-export const hello = 'hello there'
+export * from './header'
