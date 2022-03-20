@@ -4,6 +4,7 @@ export const theme: DefaultTheme = {
   radius: {
     sm: '0.4rem',
     md: '0.8rem',
+    lg: '1.2rem',
     pill: '2.5rem',
     rounded: '50%',
   },
@@ -22,7 +23,10 @@ export const theme: DefaultTheme = {
     yellow: '#F2C94C',
     orange: '#F2994A',
     red: '#EB5757',
-    lightBlue: '#56CCF2',
-    lightGreen: '#6FCF97',
+    violet: '#9B51E0',
+    lightViolet: '#EBDCF9',
+    lightGreen: '#D3EADD',
+    lightOrange: '#F2994A33',
+    lightYellow: '#FCF4DB',
   },
 }
