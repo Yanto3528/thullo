@@ -1,1 +1,2 @@
-export const asd = ''
+export * from './container'
+export * from './main-content'
