@@ -9,4 +9,6 @@ export const Wrapper = styled.div<FlexProps>`
   gap: ${({ gap }) => gap};
   flex-wrap: ${({ wrap }) => wrap};
   flex-direction: ${({ direction }) => direction};
+  margin: ${({ margin }) => margin};
+  width: ${({ width }) => width};
 `

@@ -6,4 +6,6 @@ export interface FlexProps {
   gap?: CSSProperties['gap']
   wrap?: CSSProperties['flexWrap']
   direction?: CSSProperties['flexDirection']
+  margin?: string
+  width?: string
 }
