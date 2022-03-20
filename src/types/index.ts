@@ -13,13 +13,17 @@ export interface Color {
   yellow: string
   orange: string
   red: string
-  lightBlue: string
+  violet: string
+  lightViolet: string
+  lightOrange: string
+  lightYellow: string
   lightGreen: string
 }
 
 export interface Radius {
   sm: string
   md: string
+  lg: string
   pill: string
   rounded: string
 }
