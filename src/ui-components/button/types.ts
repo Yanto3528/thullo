@@ -8,4 +8,5 @@ export interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   width?: string
   height?: string
   padding?: string
+  justify?: React.CSSProperties['justifyContent']
 }
