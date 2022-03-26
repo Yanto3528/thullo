@@ -27,3 +27,8 @@ export interface Radius {
   pill: string
   rounded: string
 }
+
+export interface CardType {
+  id: string
+  title: string
+}
