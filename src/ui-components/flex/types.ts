@@ -1,11 +1,12 @@
-import { CSSProperties } from 'styled-components'
+import React from 'react'
 
 export interface FlexProps {
-  alignItems?: CSSProperties['alignItems']
-  justify?: CSSProperties['justifyContent']
-  gap?: CSSProperties['gap']
-  wrap?: CSSProperties['flexWrap']
-  direction?: CSSProperties['flexDirection']
+  alignItems?: React.CSSProperties['alignItems']
+  justify?: React.CSSProperties['justifyContent']
+  gap?: React.CSSProperties['gap']
+  wrap?: React.CSSProperties['flexWrap']
+  direction?: React.CSSProperties['flexDirection']
   margin?: string
   width?: string
+  innerRef?: React.Ref<HTMLDivElement>
 }
