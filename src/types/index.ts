@@ -1,6 +1,7 @@
 export interface Color {
   primary: string
   primaryLight: string
+  primaryLight2: string
   lightGray: string
   lightGray2: string
   gray1: string

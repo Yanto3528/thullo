@@ -11,6 +11,7 @@ export const theme: DefaultTheme = {
   colors: {
     primary: '#2F80ED',
     primaryLight: '#DAE4FD',
+    primaryLight2: '#E4E9f7',
     lightGray: '#F2F2F2',
     lightGray2: '#F8F9FD',
     gray1: '#333333',
