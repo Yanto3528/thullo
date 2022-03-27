@@ -1,15 +1,13 @@
 import { useState } from 'react'
-import { MoreHorizontal, Plus } from 'react-feather'
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
+import { DragDropContext, DropResult, DragStart, DragUpdate } from 'react-beautiful-dnd'
 import NoSSR from 'react-no-ssr'
 
-import { Flex, Heading, Button } from '@/ui-components'
-import { useToggle } from '@/hooks'
+import { Flex } from '@/ui-components'
 import { CardType } from '@/types'
 
-import { Card } from './card'
-import { Wrapper } from './styles'
-import { AddCardForm } from './add-card-form'
+import { List } from './list'
+import { generateId, calculateTotalHeight, moveCardInSameList, moveCardBetweenDifferentList } from './helpers'
+import type { CardListState, CustomPlaceholderProps } from './types'
 
 const cardListState = {
   cards: {
@@ -36,31 +34,25 @@ const cardListState = {
       title: 'Backlog',
       cardIds: ['card-1', 'card-2', 'card-3', 'card-4'],
     },
+    'list-2': {
+      id: 'list-2',
+      title: 'In Progress',
+      cardIds: [],
+    },
+    'list-3': {
+      id: 'list-3',
+      title: 'Done',
+      cardIds: [],
+    },
   },
-  listOrders: ['list-1'],
+  listOrders: ['list-1', 'list-2', 'list-3'],
 }
 
-const generateId = () => {
-  return Math.random() * 100 + new Date().toString()
-}
-
-interface CardListState {
-  list: {
-    [key: string]: {
-      id: string
-      title: string
-      cardIds: string[]
-    }
-  }
-  cards: {
-    [key: CardType['id']]: CardType
-  }
-  listOrders: string[]
-}
+const queryAttr = 'data-rbd-drag-handle-draggable-id'
 
 export const CardList = () => {
-  const [showForm, { onToggle }] = useToggle(false)
   const [state, setState] = useState<CardListState>(cardListState)
+  const [placeholderProps, setPlaceholderProps] = useState<CustomPlaceholderProps | null>(null)
 
   const onAddNewCard = (listId: string) => {
     return (data: Omit<CardType, 'id'>) => {
@@ -92,8 +84,80 @@ export const CardList = () => {
     }
   }
 
+  const getDraggedDom = (draggableId: string) => {
+    const domQuery = `[${queryAttr}='${draggableId}']`
+    const draggedDOM = document.querySelector(domQuery)
+
+    return draggedDOM
+  }
+
+  const onDragStart = (event: DragStart) => {
+    const draggedDOM = getDraggedDom(event.draggableId)
+
+    if (!draggedDOM) {
+      return
+    }
+
+    const { clientHeight, clientWidth } = draggedDOM
+    const sourceIndex = event.source.index
+
+    const parentPaddingTop = parseFloat(window.getComputedStyle(draggedDOM.parentNode as Element).paddingTop)
+    const clonedChildrenElements = Array.from(draggedDOM.parentNode?.children || []).slice(0, sourceIndex)
+
+    const totalChildrenHeight = calculateTotalHeight(clonedChildrenElements)
+
+    const clientY = parentPaddingTop + totalChildrenHeight
+    const clientX = parseFloat(window.getComputedStyle(draggedDOM.parentNode as Element).paddingLeft)
+
+    setPlaceholderProps({
+      clientHeight,
+      clientWidth,
+      clientY,
+      clientX,
+    })
+  }
+
+  const onDragUpdate = (event: DragUpdate) => {
+    if (!event.destination) {
+      return
+    }
+
+    const draggedDOM = getDraggedDom(event.draggableId)
+
+    if (!draggedDOM) {
+      return
+    }
+
+    const { clientHeight, clientWidth } = draggedDOM
+    const destinationIndex = event.destination.index
+    const sourceIndex = event.source.index
+
+    const childrenArray = Array.from(draggedDOM.parentNode?.children || [])
+    const movedItem = childrenArray[sourceIndex]
+    childrenArray.splice(sourceIndex, 1)
+
+    const updatedArray = [
+      ...childrenArray.slice(0, destinationIndex),
+      movedItem,
+      ...childrenArray.slice(destinationIndex + 1),
+    ]
+
+    const parentPaddingTop = parseFloat(window.getComputedStyle(draggedDOM.parentNode as Element).paddingTop)
+    const totalChildrenHeight = calculateTotalHeight(updatedArray.slice(0, destinationIndex))
+
+    const clientY = parentPaddingTop + totalChildrenHeight
+    const clientX = parseFloat(window.getComputedStyle(draggedDOM.parentNode as Element).paddingLeft)
+
+    setPlaceholderProps({
+      clientHeight,
+      clientWidth,
+      clientY,
+      clientX,
+    })
+  }
+
   const onDragEnd = (result: DropResult) => {
-    const { destination, source, draggableId } = result
+    const { destination, source } = result
 
     if (!destination) {
       return
@@ -103,22 +167,24 @@ export const CardList = () => {
       return
     }
 
-    const currentDraggedList = state.list[source.droppableId]
-    const newCardIds = [...currentDraggedList.cardIds]
-    newCardIds.splice(source.index, 1)
-    newCardIds.splice(destination.index, 0, draggableId)
+    const currentList = state.list[source.droppableId]
+    const targetList = state.list[destination.droppableId]
 
-    const newList = {
-      ...currentDraggedList,
-      cardIds: newCardIds,
+    if (currentList === targetList) {
+      const newState = moveCardInSameList({ state, currentList, result })
+
+      if (!newState) {
+        return
+      }
+
+      setState(newState)
+      return
     }
 
-    const newState = {
-      ...state,
-      list: {
-        ...state.list,
-        [newList.id]: newList,
-      },
+    const newState = moveCardBetweenDifferentList({ state, currentList, targetList, result })
+
+    if (!newState) {
+      return
     }
 
     setState(newState)
@@ -126,40 +192,18 @@ export const CardList = () => {
 
   return (
     <NoSSR>
-      <DragDropContext onDragEnd={onDragEnd}>
-        {state.listOrders.map((listId) => (
-          <Flex gap='3.2rem' alignItems='flex-start' key={listId}>
-            <Wrapper>
-              <Flex justify='space-between'>
-                <Heading as='h4'>Backlog</Heading>
-                <MoreHorizontal />
-              </Flex>
-              <Droppable droppableId={listId}>
-                {(provided) => (
-                  <Flex
-                    direction='column'
-                    alignItems='stretch'
-                    margin='1.7rem 0 0 0'
-                    {...provided.droppableProps}
-                    innerRef={provided.innerRef}
-                  >
-                    {state.list[listId].cardIds.map((cardId, index) => (
-                      <Card key={cardId} card={state.cards[cardId]} index={index} />
-                    ))}
-                    {provided.placeholder}
-                    {showForm ? (
-                      <AddCardForm onToggle={onToggle} onAddNewCard={onAddNewCard(listId)} />
-                    ) : (
-                      <Button justify='space-between' bg='primaryLight' color='primary' onClick={onToggle}>
-                        Add another card <Plus size='1.4rem' />
-                      </Button>
-                    )}
-                  </Flex>
-                )}
-              </Droppable>
-            </Wrapper>
-          </Flex>
-        ))}
+      <DragDropContext onDragStart={onDragStart} onDragUpdate={onDragUpdate} onDragEnd={onDragEnd}>
+        <Flex gap='3.2rem' alignItems='flex-start'>
+          {state.listOrders.map((listId) => (
+            <List
+              key={listId}
+              state={state}
+              listId={listId}
+              placeholderProps={placeholderProps}
+              onAddNewCard={onAddNewCard}
+            />
+          ))}
+        </Flex>
       </DragDropContext>
     </NoSSR>
   )
