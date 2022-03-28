@@ -2,10 +2,9 @@ import styled from 'styled-components'
 
 export const Wrapper = styled.div`
   width: 24.5rem;
-  margin-top: 1.7rem;
 `
 
-export const ListWrapper = styled.div`
+export const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 1.7rem;

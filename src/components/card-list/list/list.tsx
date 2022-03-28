@@ -6,7 +6,7 @@ import { useToggle } from '@/hooks'
 
 import { Card } from '../card'
 import { AddCardForm } from '../add-card-form'
-import { CustomPlaceholder, ListWrapper, Wrapper } from './styles'
+import { CustomPlaceholder, CardWrapper, Wrapper } from './styles'
 import type { ListProps } from './types'
 
 export const List = ({ state, listId, placeholderProps, onAddNewCard }: ListProps) => {
@@ -20,7 +20,7 @@ export const List = ({ state, listId, placeholderProps, onAddNewCard }: ListProp
       </Flex>
       <Droppable droppableId={listId}>
         {(provided, snapshot) => (
-          <ListWrapper {...provided.droppableProps} ref={provided.innerRef}>
+          <CardWrapper {...provided.droppableProps} ref={provided.innerRef}>
             {state.list[listId].cardIds.map((cardId, index) => (
               <Card key={cardId} card={state.cards[cardId]} index={index} />
             ))}
@@ -42,7 +42,7 @@ export const List = ({ state, listId, placeholderProps, onAddNewCard }: ListProp
                 Add another card <Plus size='1.4rem' />
               </Button>
             )}
-          </ListWrapper>
+          </CardWrapper>
         )}
       </Droppable>
     </Wrapper>
