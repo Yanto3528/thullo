@@ -186,7 +186,12 @@ export const CardList = () => {
   return (
     <NoSSR>
       <DragDropContext onDragStart={onDragStart} onDragUpdate={onDragUpdate} onDragEnd={onDragEnd}>
-        <Flex gap='3.2rem' alignItems='flex-start'>
+        <Flex
+          gap='3.2rem'
+          alignItems='flex-start'
+          height='calc(100vh - 14rem)'
+          customStyle={{ 'overflow-x': 'auto', padding: '2.4rem' }}
+        >
           {state.listOrders.map((listId) => (
             <List
               key={listId}

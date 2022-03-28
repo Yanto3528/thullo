@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
-  width: 24.5rem;
+  min-width: 24.5rem;
 `
 
 export const CardWrapper = styled.div`
@@ -9,6 +9,7 @@ export const CardWrapper = styled.div`
   flex-direction: column;
   margin-top: 1.7rem;
   position: relative;
+  width: 100%;
 `
 
 export const CustomPlaceholder = styled.div`
