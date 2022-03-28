@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const Wrapper = styled.nav`
+  width: 100%;
   padding: 1.2rem 2.4rem;
   display: flex;
   align-items: center;
