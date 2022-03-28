@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { FlexProps } from './types'
 
@@ -11,4 +11,6 @@ export const Wrapper = styled.div<FlexProps>`
   flex-direction: ${({ direction }) => direction};
   margin: ${({ margin }) => margin};
   width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  ${({ customStyle }) => customStyle && css(customStyle)};
 `

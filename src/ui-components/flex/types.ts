@@ -1,3 +1,4 @@
+import { CSSObject } from 'styled-components'
 import React from 'react'
 
 export interface FlexProps {
@@ -8,5 +9,7 @@ export interface FlexProps {
   direction?: React.CSSProperties['flexDirection']
   margin?: string
   width?: string
+  height?: string
   innerRef?: React.Ref<HTMLDivElement>
+  customStyle?: TemplateStringsArray | CSSObject
 }
