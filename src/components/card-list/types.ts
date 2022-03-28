@@ -33,3 +33,7 @@ export interface MoveCardInSameListProps {
 export interface MoveCardBetweenDifferentListProps extends MoveCardInSameListProps {
   targetList: List
 }
+
+export interface AddNewList {
+  title: string
+}

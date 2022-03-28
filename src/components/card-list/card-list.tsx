@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import { DragDropContext, DropResult, DragStart, DragUpdate } from 'react-beautiful-dnd'
+import { produce } from 'immer'
 import NoSSR from 'react-no-ssr'
 
 import { Flex } from '@/ui-components'
 import { CardType } from '@/types'
 
 import { List } from './list'
+import { AddListForm } from './add-list-form'
 import { generateId, calculateTotalHeight, moveCardInSameList, moveCardBetweenDifferentList } from './helpers'
-import type { CardListState, CustomPlaceholderProps } from './types'
+import type { CardListState, CustomPlaceholderProps, AddNewList } from './types'
 
 const cardListState = {
   cards: {
@@ -34,18 +36,8 @@ const cardListState = {
       title: 'Backlog',
       cardIds: ['card-1', 'card-2', 'card-3', 'card-4'],
     },
-    'list-2': {
-      id: 'list-2',
-      title: 'In Progress',
-      cardIds: [],
-    },
-    'list-3': {
-      id: 'list-3',
-      title: 'Done',
-      cardIds: [],
-    },
   },
-  listOrders: ['list-1', 'list-2', 'list-3'],
+  listOrders: ['list-1'],
 }
 
 const queryAttr = 'data-rbd-drag-handle-draggable-id'
@@ -54,32 +46,33 @@ export const CardList = () => {
   const [state, setState] = useState<CardListState>(cardListState)
   const [placeholderProps, setPlaceholderProps] = useState<CustomPlaceholderProps | null>(null)
 
+  const onAddNewList = (data: AddNewList) => {
+    const listId = generateId()
+
+    setState((currentState) => {
+      return produce(currentState, (draft) => {
+        draft.list[listId] = {
+          id: listId,
+          title: data.title,
+          cardIds: [],
+        }
+        draft.listOrders.push(listId)
+      })
+    })
+  }
+
   const onAddNewCard = (listId: string) => {
     return (data: Omit<CardType, 'id'>) => {
       const cardId = generateId()
 
       setState((currentState) => {
-        const newCard = {
-          ...currentState.cards,
-          [cardId]: {
+        return produce(currentState, (draft) => {
+          draft.cards[cardId] = {
             ...data,
             id: cardId,
-          },
-        }
-
-        const newList = {
-          ...currentState.list[listId],
-          cardIds: [...currentState.list[listId].cardIds, cardId],
-        }
-
-        return {
-          ...currentState,
-          cards: newCard,
-          list: {
-            ...currentState.list,
-            [listId]: newList,
-          },
-        }
+          }
+          draft.list[listId].cardIds.push(cardId)
+        })
       })
     }
   }
@@ -203,6 +196,7 @@ export const CardList = () => {
               onAddNewCard={onAddNewCard}
             />
           ))}
+          <AddListForm onAddNewList={onAddNewList} />
         </Flex>
       </DragDropContext>
     </NoSSR>

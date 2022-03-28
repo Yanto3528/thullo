@@ -1,3 +1,5 @@
+import { produce } from 'immer'
+
 import { MoveCardInSameListProps, MoveCardBetweenDifferentListProps } from './types'
 
 export const generateId = () => {
@@ -19,22 +21,13 @@ export const moveCardInSameList = ({ state, currentList, result }: MoveCardInSam
     return undefined
   }
 
-  const newCardIds = [...currentList.cardIds]
-  newCardIds.splice(source.index, 1)
-  newCardIds.splice(destination.index, 0, draggableId)
+  return produce(state, (draft) => {
+    const newCardIds = [...currentList.cardIds]
+    newCardIds.splice(source.index, 1)
+    newCardIds.splice(destination.index, 0, draggableId)
 
-  const newList = {
-    ...currentList,
-    cardIds: newCardIds,
-  }
-
-  return {
-    ...state,
-    list: {
-      ...state.list,
-      [newList.id]: newList,
-    },
-  }
+    draft.list[currentList.id].cardIds = newCardIds
+  })
 }
 
 export const moveCardBetweenDifferentList = ({
@@ -49,27 +42,14 @@ export const moveCardBetweenDifferentList = ({
     return undefined
   }
 
-  const newCardsIds = [...currentList.cardIds]
-  newCardsIds.splice(source.index, 1)
+  return produce(state, (draft) => {
+    const newCardsIds = [...currentList.cardIds]
+    newCardsIds.splice(source.index, 1)
 
-  const newCurrentList = {
-    ...currentList,
-    cardIds: newCardsIds,
-  }
+    const newTargetCardIds = [...targetList.cardIds]
+    newTargetCardIds.splice(destination.index, 0, draggableId)
 
-  const newTargetCardIds = [...targetList.cardIds]
-  newTargetCardIds.splice(destination.index, 0, draggableId)
-  const newTargetList = {
-    ...targetList,
-    cardIds: newTargetCardIds,
-  }
-
-  return {
-    ...state,
-    list: {
-      ...state.list,
-      [newCurrentList.id]: newCurrentList,
-      [newTargetList.id]: newTargetList,
-    },
-  }
+    draft.list[currentList.id].cardIds = newCardsIds
+    draft.list[targetList.id].cardIds = newTargetCardIds
+  })
 }
