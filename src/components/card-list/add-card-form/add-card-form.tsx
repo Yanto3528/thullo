@@ -2,12 +2,8 @@ import { useForm } from 'react-hook-form'
 
 import { Flex, Button } from '@/ui-components'
 
-import { AddCardFormProps } from './types'
+import { AddCardFormProps, FormValues } from './types'
 import { Textarea } from './styles'
-
-interface FormValues {
-  title: string
-}
 
 export const AddCardForm = ({ onToggle, onAddNewCard }: AddCardFormProps) => {
   const { register, handleSubmit } = useForm<FormValues>()
