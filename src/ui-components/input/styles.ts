@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   align-items: center;
   border: 1px solid ${({ theme }) => theme.colors.gray5};
   border-radius: ${({ theme }) => theme.radius.md};
-  padding: 1rem;
+  padding: 0.6em;
   height: 3.5rem;
   transition: all 0.4s;
 
@@ -20,7 +20,8 @@ export const StyledInput = styled.input`
   border: none;
   width: 100%;
   height: 100%;
-  font-size: 1.2rem;
+  background-color: transparent;
+  font-size: inherit;
 
   ::-webkit-input-placeholder {
     /* Chrome/Opera/Safari */
