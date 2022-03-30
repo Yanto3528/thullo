@@ -7,4 +7,5 @@ export interface ListProps {
   listId: string
   placeholderProps: CustomPlaceholderProps | null
   onAddNewCard: (listId: string) => (data: Omit<CardType, 'id'>) => void
+  index: number
 }

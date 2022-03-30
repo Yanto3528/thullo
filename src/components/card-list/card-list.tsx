@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { DragDropContext, DropResult, DragStart, DragUpdate } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable, DropResult, DragStart, DragUpdate } from 'react-beautiful-dnd'
 import { produce } from 'immer'
 import NoSSR from 'react-no-ssr'
 
@@ -150,13 +150,27 @@ export const CardList = () => {
   }
 
   const onDragEnd = (result: DropResult) => {
-    const { destination, source } = result
+    const { destination, source, type, draggableId } = result
 
     if (!destination) {
       return
     }
 
     if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      return
+    }
+
+    if (type === 'list') {
+      const newListOrders = [...state.listOrders]
+      newListOrders.splice(source.index, 1)
+      newListOrders.splice(destination.index, 0, draggableId)
+
+      const newState = {
+        ...state,
+        listOrders: newListOrders,
+      }
+
+      setState(newState)
       return
     }
 
@@ -186,23 +200,30 @@ export const CardList = () => {
   return (
     <NoSSR>
       <DragDropContext onDragStart={onDragStart} onDragUpdate={onDragUpdate} onDragEnd={onDragEnd}>
-        <Flex
-          gap='3.2rem'
-          alignItems='flex-start'
-          height='calc(100vh - 14rem)'
-          customStyle={{ 'overflow-x': 'auto', padding: '2.4rem' }}
-        >
-          {state.listOrders.map((listId) => (
-            <List
-              key={listId}
-              state={state}
-              listId={listId}
-              placeholderProps={placeholderProps}
-              onAddNewCard={onAddNewCard}
-            />
-          ))}
-          <AddListForm onAddNewList={onAddNewList} />
-        </Flex>
+        <Droppable droppableId='all-columns' direction='horizontal' type='list'>
+          {(provided) => (
+            <Flex
+              alignItems='flex-start'
+              height='calc(100vh - 14rem)'
+              customStyle={{ 'overflow-x': 'auto', padding: '2.4rem' }}
+              {...provided.droppableProps}
+              innerRef={provided.innerRef}
+            >
+              {state.listOrders.map((listId, index) => (
+                <List
+                  key={listId}
+                  state={state}
+                  listId={listId}
+                  index={index}
+                  placeholderProps={placeholderProps}
+                  onAddNewCard={onAddNewCard}
+                />
+              ))}
+              {provided.placeholder}
+              <AddListForm onAddNewList={onAddNewList} />
+            </Flex>
+          )}
+        </Droppable>
       </DragDropContext>
     </NoSSR>
   )
