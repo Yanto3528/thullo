@@ -213,6 +213,7 @@ export const CardList = () => {
                 <List
                   key={listId}
                   state={state}
+                  setState={setState}
                   listId={listId}
                   index={index}
                   placeholderProps={placeholderProps}

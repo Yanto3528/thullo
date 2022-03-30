@@ -1,26 +1,77 @@
+import { useEffect, useRef, useState } from 'react'
 import { MoreHorizontal, Plus } from 'react-feather'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
+import { produce } from 'immer'
 
-import { Flex, Heading, Button } from '@/ui-components'
+import { Flex, Button, Input, Dropdown } from '@/ui-components'
+import { IconContainer } from '@/styles/components'
 import { useToggle } from '@/hooks'
 
 import { Card } from '../card'
 import { AddCardForm } from '../add-card-form'
-import { CustomPlaceholder, CardWrapper, Wrapper } from './styles'
+import { CustomPlaceholder, CardWrapper, Wrapper, ListHeading } from './styles'
 import type { ListProps } from './types'
 
-export const List = ({ state, listId, placeholderProps, index, onAddNewCard }: ListProps) => {
-  const [showForm, { onToggle }] = useToggle(false)
+export const List = ({ state, listId, placeholderProps, index, onAddNewCard, setState }: ListProps) => {
+  const [showAddCardForm, { onToggle }] = useToggle(false)
+  const [showListEditForm, { onToggle: onToggleListForm }] = useToggle(false)
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const [inputValue, setInputValue] = useState(state.list[listId].title)
+
+  useEffect(() => {
+    if (showListEditForm) {
+      inputRef.current?.focus()
+    }
+  }, [showListEditForm])
+
+  const updateTitle = () => {
+    setState((currentState) => {
+      return produce(currentState, (draft) => {
+        draft.list[listId].title = inputValue
+      })
+    })
+    onToggleListForm()
+  }
+
+  const onInputBlur = () => updateTitle()
+
+  const onInputKeyUp: React.KeyboardEventHandler<HTMLInputElement> = (event) => {
+    if (event.code === 'Enter') {
+      updateTitle()
+    }
+  }
+
+  const onInputChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setInputValue(event.currentTarget.value)
+  }
 
   return (
     <Draggable draggableId={listId} index={index}>
       {(parentProvided) => (
         <Wrapper {...parentProvided.draggableProps} ref={parentProvided.innerRef}>
-          <Flex justify='space-between'>
-            <Heading as='h4' {...parentProvided.dragHandleProps}>
-              {state.list[listId].title}
-            </Heading>
-            <MoreHorizontal />
+          <Flex justify='space-between' {...parentProvided.dragHandleProps}>
+            {showListEditForm ? (
+              <Input
+                placeholder='Edit this form'
+                value={inputValue}
+                ref={inputRef}
+                onBlur={onInputBlur}
+                onChange={onInputChange}
+                onKeyUp={onInputKeyUp}
+              />
+            ) : (
+              <ListHeading as='h4'>{state.list[listId].title}</ListHeading>
+            )}
+            <Dropdown
+              content={
+                <IconContainer>
+                  <MoreHorizontal />
+                </IconContainer>
+              }
+            >
+              <Dropdown.Item onClick={onToggleListForm}>Rename</Dropdown.Item>
+              <Dropdown.Item>Delete this list</Dropdown.Item>
+            </Dropdown>
           </Flex>
           <Droppable droppableId={listId} type='card'>
             {(provided, snapshot) => (
@@ -39,7 +90,7 @@ export const List = ({ state, listId, placeholderProps, index, onAddNewCard }: L
                     }}
                   />
                 )}
-                {showForm ? (
+                {showAddCardForm ? (
                   <AddCardForm onToggle={onToggle} onAddNewCard={onAddNewCard(listId)} />
                 ) : (
                   <Button justify='space-between' bg='primaryLight' color='primary' onClick={onToggle}>

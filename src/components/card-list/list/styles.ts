@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { Heading } from '@/ui-components'
+
 export const Wrapper = styled.div`
   min-width: 24.5rem;
   background-color: ${({ theme }) => theme.colors.lightGray2};
@@ -23,4 +25,9 @@ export const CustomPlaceholder = styled.div`
   background-color: ${({ theme }) => theme.colors.primaryLight2};
   border-radius: ${({ theme }) => theme.radius.lg};
   border: dashed 1px ${({ theme }) => theme.colors.primary};
+`
+
+export const ListHeading = styled(Heading)`
+  padding: 1rem;
+  height: 3.5rem;
 `
