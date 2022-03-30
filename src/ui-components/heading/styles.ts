@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { HeadingProps } from './types'
 
@@ -7,4 +7,6 @@ export const StyledHeading = styled.h1<HeadingProps>`
   font-weight: ${({ weight }) => weight};
   font-family: ${({ family }) => family};
   word-break: break-word;
+
+  ${({ customStyle }) => customStyle && css(customStyle)};
 `
