@@ -8,6 +8,7 @@ export const Wrapper = styled.nav`
   justify-content: space-between;
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray5};
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  background-color: white;
 `
 
 export const LogoContainer = styled.div`
