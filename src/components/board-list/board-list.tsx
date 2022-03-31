@@ -1,17 +1,21 @@
 import { Plus } from 'react-feather'
-import { Heading, Flex, Grid, Button } from '@/ui-components'
+
+import { Heading, Flex, Grid, Button, Modal } from '@/ui-components'
+import { useToggle } from '@/hooks'
 
 import { Board } from './board'
 import { Wrapper } from './styles'
 
 export const BoardList = () => {
+  const [showModal, { onOpen, onClose }] = useToggle()
+
   return (
     <Wrapper>
       <Flex justify='space-between' margin='0 0 3.6rem 0'>
         <Heading as='h3' size='1.8rem'>
           All boards
         </Heading>
-        <Button>
+        <Button onClick={onOpen}>
           <Plus size='1.6rem' /> Add
         </Button>
       </Flex>
@@ -21,6 +25,9 @@ export const BoardList = () => {
         <Board />
         <Board />
       </Grid>
+      <Modal isOpen={showModal} onClose={onClose}>
+        <p>Hello</p>
+      </Modal>
     </Wrapper>
   )
 }
