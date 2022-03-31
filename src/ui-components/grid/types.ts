@@ -3,6 +3,10 @@ import { CSSObject } from 'styled-components'
 
 import { MediaQuery } from '@/constants'
 
+type MapKey<KeyT extends PropertyKey, ValueT> = {
+  [Key in KeyT]: { [Key2 in Key]: ValueT }
+}[KeyT]
+
 export interface GridProps {
   gap?: React.CSSProperties['gap']
   columnGap?: React.CSSProperties['columnGap']
@@ -11,7 +15,7 @@ export interface GridProps {
   justify?: React.CSSProperties['justifyContent']
   minChildWidth?: string
   maxChildWidth?: string
-  columns?: Record<keyof typeof columnsMap, string> | number
+  columns: MapKey<keyof typeof columnsMap, string | number>
   customStyle?: TemplateStringsArray | CSSObject
 }
 
