@@ -19,7 +19,11 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({ children, maxDisplay =
 
           return null
         })}
-      {isChildExceedMax && <Text color='gray4'>+ {React.Children.count(children) - maxDisplay} others</Text>}
+      {isChildExceedMax && (
+        <Text color='gray4' size='1.2rem'>
+          + {React.Children.count(children) - maxDisplay} others
+        </Text>
+      )}
     </Wrapper>
   )
 }
