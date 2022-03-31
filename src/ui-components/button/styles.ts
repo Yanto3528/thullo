@@ -14,7 +14,7 @@ export const StyledButton = styled.button<ButtonProps>`
   display: flex;
   align-items: center;
   justify-content: ${({ justify }) => justify};
-  gap: 1rem;
+  gap: 0.7rem;
   font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.2s;
