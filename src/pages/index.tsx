@@ -1,17 +1,15 @@
-import { Navbar, Header, CardList } from '@/components'
-import { Container, MainContent } from '@/styles/components'
+import Link from 'next/link'
 
 const Home = () => {
   return (
-    <>
-      <Navbar />
-      <Container>
-        <Header />
-        <MainContent>
-          <CardList />
-        </MainContent>
-      </Container>
-    </>
+    <div>
+      <Link href='/boards/123'>
+        <a>Go to single board</a>
+      </Link>
+      <Link href='/boards'>
+        <a>Go to all board</a>
+      </Link>
+    </div>
   )
 }
 
