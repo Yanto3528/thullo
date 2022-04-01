@@ -2,10 +2,6 @@ import { produce } from 'immer'
 
 import { MoveCardInSameListProps, MoveCardBetweenDifferentListProps } from './types'
 
-export const generateId = () => {
-  return Math.random() * 100 + new Date().toString()
-}
-
 export const calculateTotalHeight = (array: Element[]) => {
   return array.reduce((total, current) => {
     const style = window.getComputedStyle(current)

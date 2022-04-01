@@ -5,10 +5,11 @@ import NoSSR from 'react-no-ssr'
 
 import { Flex } from '@/ui-components'
 import { CardType } from '@/types'
+import { generateId } from '@/utils'
 
 import { List } from './list'
 import { AddListForm } from './add-list-form'
-import { generateId, calculateTotalHeight, moveCardInSameList, moveCardBetweenDifferentList } from './helpers'
+import { calculateTotalHeight, moveCardInSameList, moveCardBetweenDifferentList } from './helpers'
 import type { CardListState, CustomPlaceholderProps, AddNewList } from './types'
 
 const cardListState = {
