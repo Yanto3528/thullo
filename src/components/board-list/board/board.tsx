@@ -1,17 +1,18 @@
 import { Card, Heading, AvatarGroup, Avatar } from '@/ui-components'
 
 import { StyledImage } from './styles'
+import { BoardProps } from './types'
 
 const tempImageSrc =
   'https://images.unsplash.com/photo-1569098644584-210bcd375b59?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
 
-export const Board = () => {
+export const Board = ({ board }: BoardProps) => {
   return (
     <Card>
       <Card.Body>
-        <StyledImage src={tempImageSrc} width={219} height={130} />
+        <StyledImage src={board.coverImage || tempImageSrc} width={219} height={130} />
         <Heading as='h3' size='1.6rem' customStyle={{ margin: '1.2rem 0 2.1rem 0' }}>
-          DevChallenges Board
+          {board.title}
         </Heading>
         <AvatarGroup>
           <Avatar src={tempImageSrc} />

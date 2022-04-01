@@ -33,3 +33,10 @@ export interface CardType {
   id: string
   title: string
 }
+
+export interface BoardType {
+  id: string
+  title: string
+  coverImage?: string
+  visibility?: string
+}

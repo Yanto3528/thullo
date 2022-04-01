@@ -1,1 +1,5 @@
-export const a = 'b'
+import { BoardType } from '@/types'
+
+export interface BoardProps {
+  board: BoardType
+}
