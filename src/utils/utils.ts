@@ -10,5 +10,5 @@ export const getMediaQuery = (screenSize: number) => {
 }
 
 export const generateId = () => {
-  return Math.random() * 100 + new Date().toString()
+  return (Math.random() * 100 + new Date().getTime()).toString()
 }
