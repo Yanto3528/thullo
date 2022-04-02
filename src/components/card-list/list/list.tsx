@@ -90,16 +90,16 @@ export const List = ({ state, listId, placeholderProps, index, onAddNewCard, set
                     }}
                   />
                 )}
-                {showAddCardForm ? (
-                  <AddCardForm onToggle={onToggle} onAddNewCard={onAddNewCard(listId)} />
-                ) : (
-                  <Button justify='space-between' bg='primaryLight' color='primary' onClick={onToggle}>
-                    Add another card <Plus size='1.4rem' />
-                  </Button>
-                )}
               </CardWrapper>
             )}
           </Droppable>
+          {showAddCardForm ? (
+            <AddCardForm onToggle={onToggle} onAddNewCard={onAddNewCard(listId)} />
+          ) : (
+            <Button justify='space-between' bg='primaryLight' color='primary' onClick={onToggle} width='100%'>
+              Add another card <Plus size='1.4rem' />
+            </Button>
+          )}
         </Wrapper>
       )}
     </Draggable>

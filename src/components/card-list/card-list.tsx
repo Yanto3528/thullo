@@ -37,11 +37,17 @@ const cardListState = {
       title: 'Backlog',
       cardIds: ['card-1', 'card-2', 'card-3', 'card-4'],
     },
+    'list-2': {
+      id: 'list-2',
+      title: 'In Progress',
+      cardIds: [],
+    },
   },
-  listOrders: ['list-1'],
+  listOrders: ['list-1', 'list-2'],
 }
 
-const queryAttr = 'data-rbd-drag-handle-draggable-id'
+const draggableQuery = 'data-rbd-drag-handle-draggable-id'
+const droppableQuery = 'data-rbd-droppable-id'
 
 export const CardList = () => {
   const [state, setState] = useState<CardListState>(cardListState)
@@ -78,7 +84,7 @@ export const CardList = () => {
     }
   }
 
-  const getDraggedDom = (draggableId: string) => {
+  const getDraggedDom = (draggableId: string, queryAttr = draggableQuery) => {
     const domQuery = `[${queryAttr}='${draggableId}']`
     const draggedDOM = document.querySelector(domQuery)
 
@@ -125,8 +131,12 @@ export const CardList = () => {
     const { clientHeight, clientWidth } = draggedDOM
     const destinationIndex = event.destination.index
     const sourceIndex = event.source.index
+    let childrenArray = Array.from(draggedDOM.parentNode?.children || [])
+    if (event.source.droppableId !== event.destination.droppableId) {
+      const targetListDOM = getDraggedDom(event.destination.droppableId, droppableQuery)
+      childrenArray = Array.from(targetListDOM?.children || [])
+    }
 
-    const childrenArray = Array.from(draggedDOM.parentNode?.children || [])
     const movedItem = childrenArray[sourceIndex]
     childrenArray.splice(sourceIndex, 1)
 
