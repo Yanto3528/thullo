@@ -1,3 +1,4 @@
+import Router from 'next/router'
 import { Card, Heading, AvatarGroup, Avatar } from '@/ui-components'
 
 import { StyledImage } from './styles'
@@ -7,8 +8,12 @@ const tempImageSrc =
   'https://images.unsplash.com/photo-1569098644584-210bcd375b59?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
 
 export const Board = ({ board }: BoardProps) => {
+  const onBoardClick = () => {
+    Router.push(`/boards/${board.id}`)
+  }
+
   return (
-    <Card>
+    <Card cursor='pointer' onClick={onBoardClick}>
       <Card.Body>
         <StyledImage src={board.coverImage || tempImageSrc} width={219} height={130} />
         <Heading as='h3' size='1.6rem' customStyle={{ margin: '1.2rem 0 2.1rem 0' }}>
