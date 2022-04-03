@@ -33,7 +33,7 @@ export const CloseWrapper = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  transform: translate(-50%, 50%);
+  transform: translate(50%, -50%);
   background-color: ${({ theme }) => theme.colors.primary};
   display: flex;
   align-items: center;
