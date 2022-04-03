@@ -7,7 +7,7 @@ import { Overlay, Wrapper, CloseWrapper } from './styles'
 import { modalSlideIn, overlayFadeIn } from './animation'
 import { ModalProps } from './types'
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, children, onClose, ...props }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen, children, onClose, isCenter = true, ...props }) => {
   const onStopPropagation = (event: React.SyntheticEvent) => {
     event.stopPropagation()
   }
@@ -16,7 +16,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, children, onClose, ...prop
     <Portal>
       <AnimatePresence>
         {isOpen && (
-          <Overlay variants={overlayFadeIn} onClick={onClose}>
+          <Overlay variants={overlayFadeIn} onClick={onClose} isCenter={isCenter}>
             <Wrapper variants={modalSlideIn} onClick={onStopPropagation} {...props}>
               <CloseWrapper onClick={onClose}>
                 <CloseIcon size='1.6rem' />

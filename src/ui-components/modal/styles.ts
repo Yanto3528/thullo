@@ -1,18 +1,22 @@
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 
-import { ModalWrapperProps } from './types'
+import { ModalWrapperProps, ModalProps } from './types'
 
-export const Overlay = styled(motion.div)`
+export const Overlay = styled(motion.div)<Pick<ModalProps, 'isCenter'>>`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  width: 100vw;
+  min-height: 100vh;
   background-color: rgba(0 0 0 / 20%);
   display: flex;
-  align-items: center;
+  align-items: ${({ isCenter }) => (isCenter ? 'center' : 'flex-start')};
   justify-content: center;
+  padding: 2rem;
+  overflow: auto;
   z-index: 2000;
 `
 
