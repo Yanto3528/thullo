@@ -1,15 +1,20 @@
 import { FileText, Edit2 } from 'react-feather'
 
 import { Button, Flex, Text } from '@/ui-components'
+import { theme } from '@/styles/theme'
+
 import { Wrapper } from './styles'
 
 export const Description = () => {
   return (
     <Wrapper>
       <Flex gap='1.5rem' margin='0 0 1rem 0'>
-        <Text color='gray3' size='1.2rem'>
-          <FileText size='1.2rem' /> Description
-        </Text>
+        <Flex gap='0.5rem'>
+          <FileText size='1.2rem' color={theme.colors.gray3} />
+          <Text color='gray3' size='1.2rem'>
+            Description
+          </Text>
+        </Flex>
         <Button>
           <Edit2 size='1.2rem' /> Edit
         </Button>
