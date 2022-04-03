@@ -3,6 +3,7 @@ import { Modal, ModalProps, Flex, Heading, Button, Text } from '@/ui-components'
 
 import { Description } from './description'
 import { AttachmentList } from './attachment-list'
+import { CommentList } from './comment-list'
 import { StyledImage, CardModalHeader, LeftContainer } from './styles'
 
 const tempImageSrc =
@@ -22,6 +23,7 @@ export const CardModal = (props: ModalProps) => {
           </CardModalHeader>
           <Description />
           <AttachmentList />
+          <CommentList />
         </LeftContainer>
         <Flex direction='column' width='15rem' alignItems='stretch' gap='1.2rem'>
           <p>Actions</p>
