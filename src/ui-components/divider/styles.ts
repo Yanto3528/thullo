@@ -10,6 +10,7 @@ const horizontalStyles = css`
 const verticalStyles = css`
   width: 0.1rem;
   height: 100%;
+  writing-mode: vertical-lr;
 `
 
 const resolveOritentation = ({ orientation }: DividerProps) => {
