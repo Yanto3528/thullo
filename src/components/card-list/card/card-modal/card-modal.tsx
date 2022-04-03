@@ -11,7 +11,7 @@ const tempImageSrc =
 
 export const CardModal = (props: ModalProps) => {
   return (
-    <Modal {...props} width='66.1rem'>
+    <Modal {...props} width='66.1rem' isCenter={false}>
       <StyledImage src={tempImageSrc} width={616} height={120} />
       <Flex gap='2.3rem' margin='2.5rem 0 0 0' alignItems='flex-start'>
         <LeftContainer>
