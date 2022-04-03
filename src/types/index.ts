@@ -40,3 +40,13 @@ export interface BoardType {
   coverImage?: string
   visibility?: string
 }
+
+export interface CommentType {
+  id: string
+  author: {
+    name: string
+    avatar: string
+  }
+  createdAt: Date
+  content: string
+}
