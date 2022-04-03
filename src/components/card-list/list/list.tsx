@@ -33,6 +33,17 @@ export const List = ({ state, listId, placeholderProps, index, onAddNewCard, set
     onToggleListForm()
   }
 
+  const onDeleteList = () => {
+    setState((currentState) => {
+      return produce(currentState, (draft) => {
+        const listIndex = draft.listOrders.findIndex((listOrderId) => listOrderId === listId)
+        draft.listOrders.splice(listIndex, 1)
+        delete draft.list[listId]
+      })
+    })
+    onToggleListForm()
+  }
+
   const onInputBlur = () => updateTitle()
 
   const onInputKeyUp: React.KeyboardEventHandler<HTMLInputElement> = (event) => {
@@ -70,7 +81,7 @@ export const List = ({ state, listId, placeholderProps, index, onAddNewCard, set
               }
             >
               <Dropdown.Item onClick={onToggleListForm}>Rename</Dropdown.Item>
-              <Dropdown.Item>Delete this list</Dropdown.Item>
+              <Dropdown.Item onClick={onDeleteList}>Delete this list</Dropdown.Item>
             </Dropdown>
           </Flex>
           <Droppable droppableId={listId} type='card'>
