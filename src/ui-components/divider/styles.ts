@@ -18,6 +18,6 @@ const resolveOritentation = ({ orientation }: DividerProps) => {
 
 export const DividerWrapper = styled.div<DividerProps>`
   background-color: ${({ theme }) => theme.colors.gray5};
-  margin-inline: ${({ spacing }) => spacing || '1rem'};
+  margin-block: ${({ spacing }) => spacing || '1rem'};
   ${resolveOritentation};
 `
