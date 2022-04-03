@@ -13,18 +13,19 @@ export const generateId = () => {
   return (Math.random() * 100 + new Date().getTime()).toString()
 }
 
-export const calculateTextareaRows = (
-  element: HTMLTextAreaElement,
-  padding = 20,
-  minRows = 1,
-  maxRows = 5,
-  lineHeight = 15
-) => {
+export const calculateTextareaRows = (element: HTMLTextAreaElement, minRows = 1, maxRows = 5) => {
   const previousRows = element.rows
-  element.rows = minRows // reset number of rows in textarea
-  const textareaScrollHeight = element.scrollHeight - padding
+  const { lineHeight, paddingTop, paddingBottom } = window.getComputedStyle(element)
 
-  const currentRows = ~~(textareaScrollHeight / lineHeight) // eslint-disable-line
+  const computedLineHeight = parseInt(lineHeight.replace('px', ''), 10)
+  const computedPaddingTop = parseInt(paddingTop.replace('px', ''), 10)
+  const computedPaddingBottom = parseInt(paddingBottom.replace('px', ''), 10)
+  const computedPadding = computedPaddingTop + computedPaddingBottom
+
+  element.rows = minRows // reset number of rows in textarea
+  const textareaScrollHeight = element.scrollHeight - computedPadding
+
+  const currentRows = ~~(textareaScrollHeight / computedLineHeight) // eslint-disable-line
 
   if (currentRows === previousRows) {
     element.rows = currentRows
