@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.26.1",
+    "dayjs": "^1.11.0",
     "framer-motion": "^6.2.8",
     "immer": "^9.0.12",
     "next": "12.1.0",
