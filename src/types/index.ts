@@ -10,11 +10,13 @@ export interface Color {
   gray4: string
   gray5: string
   white: string
+  indigo: string
   green: string
   yellow: string
   orange: string
   red: string
   violet: string
+  teal: string
   lightViolet: string
   lightOrange: string
   lightYellow: string
