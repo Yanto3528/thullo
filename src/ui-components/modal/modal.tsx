@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { SyntheticEvent } from 'react'
 import { X as CloseIcon } from 'react-feather'
 import { AnimatePresence } from 'framer-motion'
 
@@ -8,16 +8,19 @@ import { modalSlideIn, overlayFadeIn } from './animation'
 import { ModalProps } from './types'
 
 export const Modal: React.FC<ModalProps> = ({ isOpen, children, onClose, position = 'center', ...props }) => {
-  const onStopPropagation = (event: React.SyntheticEvent) => {
-    event.stopPropagation()
+  const onStopPropagation = (callback?: () => void) => {
+    return (event: SyntheticEvent) => {
+      event.stopPropagation()
+      callback?.()
+    }
   }
 
   return (
     <Portal>
       <AnimatePresence>
         {isOpen && (
-          <Overlay variants={overlayFadeIn} onClick={onClose} position={position}>
-            <Wrapper variants={modalSlideIn} onClick={onStopPropagation} {...props}>
+          <Overlay variants={overlayFadeIn} position={position} onClick={onStopPropagation(onClose)}>
+            <Wrapper variants={modalSlideIn} onClick={onStopPropagation()} {...props}>
               <CloseWrapper onClick={onClose}>
                 <CloseIcon size='1.6rem' />
               </CloseWrapper>
