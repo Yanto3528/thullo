@@ -4,7 +4,7 @@ export interface ModalProps {
   isOpen: boolean
   onClose: () => void
   width?: React.CSSProperties['width']
-  isCenter: boolean
+  position: 'start' | 'center'
 }
 
 export type ModalWrapperProps = Pick<ModalProps, 'width'>

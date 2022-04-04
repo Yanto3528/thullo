@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 
 import { ModalWrapperProps, ModalProps } from './types'
 
-export const Overlay = styled(motion.div)<Pick<ModalProps, 'isCenter'>>`
+export const Overlay = styled(motion.div)<Pick<ModalProps, 'position'>>`
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +13,7 @@ export const Overlay = styled(motion.div)<Pick<ModalProps, 'isCenter'>>`
   min-height: 100vh;
   background-color: rgba(0 0 0 / 20%);
   display: flex;
-  align-items: ${({ isCenter }) => (isCenter ? 'center' : 'flex-start')};
+  align-items: ${({ position }) => (position !== 'start' ? 'center' : 'flex-start')};
   justify-content: center;
   padding: 2rem;
   overflow: auto;

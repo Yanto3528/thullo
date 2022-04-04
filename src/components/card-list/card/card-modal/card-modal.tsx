@@ -1,9 +1,9 @@
-import { Users as UsersIcon, Tag as TagIcon, Image as ImageIcon } from 'react-feather'
-import { Modal, ModalProps, Flex, Heading, Button, Text } from '@/ui-components'
+import { Modal, ModalProps, Flex, Heading, Text } from '@/ui-components'
 
 import { Description } from './description'
 import { AttachmentList } from './attachment-list'
 import { CommentList } from './comment-list'
+import { Actions } from './actions'
 import { StyledImage, CardModalHeader, LeftContainer } from './styles'
 
 const tempImageSrc =
@@ -11,7 +11,7 @@ const tempImageSrc =
 
 export const CardModal = (props: ModalProps) => {
   return (
-    <Modal {...props} width='66.1rem' isCenter={false}>
+    <Modal {...props} width='66.1rem' position='start'>
       <StyledImage src={tempImageSrc} width={616} height={120} />
       <Flex gap='2.3rem' margin='2.5rem 0 0 0' alignItems='flex-start'>
         <LeftContainer>
@@ -25,18 +25,7 @@ export const CardModal = (props: ModalProps) => {
           <AttachmentList />
           <CommentList />
         </LeftContainer>
-        <Flex direction='column' width='15rem' alignItems='stretch' gap='1.2rem'>
-          <p>Actions</p>
-          <Button bg='lightGray' color='gray3'>
-            <UsersIcon size='1.2rem' /> Members
-          </Button>
-          <Button bg='lightGray' color='gray3'>
-            <TagIcon size='1.2rem' /> Labels
-          </Button>
-          <Button bg='lightGray' color='gray3'>
-            <ImageIcon size='1.2rem' /> Cover
-          </Button>
-        </Flex>
+        <Actions />
       </Flex>
     </Modal>
   )
