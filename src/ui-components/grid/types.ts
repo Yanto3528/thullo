@@ -15,7 +15,7 @@ export interface GridProps {
   justify?: React.CSSProperties['justifyContent']
   minChildWidth?: string
   maxChildWidth?: string
-  columns: MapKey<keyof typeof columnsMap, string | number>
+  columns: MapKey<keyof typeof columnsMap, string | number> | number
   customStyle?: TemplateStringsArray | CSSObject
 }
 
