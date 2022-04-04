@@ -8,7 +8,12 @@ import { DropdownProps, DropdownComposition, DropdownKeyboardEvent } from './typ
 import { DropdownWrapper, ContentWrapper } from './styles'
 import { slideFadeIn } from './animation'
 
-export const Dropdown: React.FC<DropdownProps> & DropdownComposition = ({ content, children, ...props }) => {
+export const Dropdown: React.FC<DropdownProps> & DropdownComposition = ({
+  content,
+  width = '15rem',
+  children,
+  ...props
+}) => {
   const [isOpen, { onClose, onToggle }] = useToggle(false)
   const contentWrapperRef = useClickOutside<HTMLDivElement>(onClose)
 
@@ -19,13 +24,13 @@ export const Dropdown: React.FC<DropdownProps> & DropdownComposition = ({ conten
   }
 
   return (
-    <ContentWrapper>
-      <div onClick={onToggle} ref={contentWrapperRef} onKeyUp={onKeyUp} role='button' tabIndex={0}>
+    <ContentWrapper ref={contentWrapperRef}>
+      <div onClick={onToggle} onKeyUp={onKeyUp} role='button' tabIndex={0}>
         {content}
       </div>
       <AnimatePresence>
         {isOpen && (
-          <DropdownWrapper variants={slideFadeIn} {...props}>
+          <DropdownWrapper variants={slideFadeIn} width={width} {...props}>
             {children}
           </DropdownWrapper>
         )}

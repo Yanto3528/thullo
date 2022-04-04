@@ -5,7 +5,7 @@ export const slideFadeIn: Variants = {
     opacity: 0,
     y: '100%',
     x: '100%',
-    scale: 0,
+    scale: 0.5,
     transformOrigin: 'top left',
   },
   animate: {
@@ -20,7 +20,7 @@ export const slideFadeIn: Variants = {
     opacity: 0,
     y: '100%',
     x: '100%',
-    scale: 0,
+    scale: 0.5,
     transition: {
       duration: 0.4,
     },

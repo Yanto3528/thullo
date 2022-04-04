@@ -1,17 +1,19 @@
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 
-export const DropdownWrapper = styled(motion.div).attrs(() => ({
+import { DropdownWrapperProps } from './types'
+
+export const DropdownWrapper = styled(motion.div).attrs<DropdownWrapperProps>(() => ({
   initial: 'initial',
   animate: 'animate',
   exit: 'exit',
-}))`
+}))<DropdownWrapperProps>`
   background-color: white;
   border-radius: ${({ theme }) => theme.radius.md};
   box-shadow: 0 1px 5px rgba(0 0 0 / 10%);
-  width: 15rem;
+  width: ${({ width }) => width};
   position: absolute;
-  bottom: 0;
+  bottom: -1rem;
   right: 100%;
   transform: translate(100%, 100%);
   z-index: 1000;
