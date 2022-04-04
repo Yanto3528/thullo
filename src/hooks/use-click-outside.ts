@@ -5,14 +5,14 @@ export const useClickOutside = <T extends HTMLElement>(callback: () => void) => 
 
   useEffect(() => {
     const handleClick = (e: Event) => {
-      if (ref.current && !ref.current.contains(e.target as Element)) {
+      if (ref.current && !ref.current.contains(e.target as T)) {
         callback()
       }
     }
 
-    document.addEventListener('click', handleClick)
+    document.addEventListener('mouseup', handleClick)
     return () => {
-      document.removeEventListener('click', handleClick)
+      document.removeEventListener('mouseup', handleClick)
     }
     // eslint-disable-next-line
   }, [])
