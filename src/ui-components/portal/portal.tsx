@@ -5,7 +5,8 @@ export const Portal: React.FC = memo(({ children }) => {
   const [mount, setMount] = useState<HTMLDivElement>()
 
   useEffect(() => {
-    if (!mount) {
+    const portalRootElement = document.getElementById('portal-root')
+    if (!mount && !portalRootElement) {
       const portalRoot = document.createElement('div')
       portalRoot.setAttribute('id', 'portal-root')
 
