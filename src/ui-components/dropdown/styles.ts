@@ -28,6 +28,9 @@ export const DropdownItemContainer = styled.div`
   color: ${({ theme }) => theme.colors.gray3};
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.lightGray2};
