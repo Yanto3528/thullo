@@ -1,7 +1,8 @@
-import { Plus, Lock, MoreHorizontal } from 'react-feather'
+import { Plus, MoreHorizontal } from 'react-feather'
 
 import { Flex, Button, Avatar } from '@/ui-components'
 
+import { VisibilityDropdown } from './visibility-dropdown'
 import { Wrapper } from './styles'
 
 const avatarSrc =
@@ -11,10 +12,7 @@ export const Header = () => {
   return (
     <Wrapper>
       <Flex gap='1.6rem'>
-        <Button bg='lightGray' color='gray3'>
-          <Lock size='1.2rem' />
-          <p>Private</p>
-        </Button>
+        <VisibilityDropdown />
         <Flex gap='1.6rem'>
           <Avatar src={avatarSrc} alt='avatar' />
           <Avatar src={avatarSrc} alt='avatar' />
