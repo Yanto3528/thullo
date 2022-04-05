@@ -31,6 +31,7 @@ export const DropdownItemContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 1.2rem;
+  border-radius: ${({ theme }) => theme.radius.md};
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.lightGray2};
