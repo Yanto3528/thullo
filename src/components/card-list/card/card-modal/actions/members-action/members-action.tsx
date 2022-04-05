@@ -46,7 +46,7 @@ export const MembersAction = () => {
             </Dropdown.Item>
           </MembersContainer>
           <Flex justify='center'>
-            <Button padding='0.75rem 2.4rem'>Invite</Button>
+            <Button padding='1rem 2.4rem'>Invite</Button>
           </Flex>
         </Wrapper>
       </Dropdown>
