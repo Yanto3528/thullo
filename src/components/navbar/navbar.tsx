@@ -13,7 +13,7 @@ export const Navbar = () => {
     <Wrapper>
       <Flex>
         <LogoContainer>
-          <Image src='/images/logo.svg' width={85} height={29} alt='thullo logo' />
+          <Image src='/images/Logo.svg' width={85} height={29} alt='thullo logo' />
         </LogoContainer>
         <Text weight={500} size='1.8rem'>
           Devchallenges Board
