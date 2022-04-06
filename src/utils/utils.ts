@@ -37,3 +37,20 @@ export const calculateTextareaRows = (element: HTMLTextAreaElement, minRows = 1,
   }
   return currentRows < maxRows ? currentRows : maxRows
 }
+
+export const mergeDeep = (sourceObj: Record<string, unknown>, ...otherObjs: Record<string, unknown>[]) => {
+  otherObjs.forEach((otherObj) => {
+    Object.keys(otherObj).forEach((key) => {
+      const sourceObjValue = sourceObj[key]
+      const otherObjValue = otherObj[key]
+
+      if (typeof sourceObjValue === 'object' && typeof otherObjValue === 'object') {
+        sourceObj[key] = mergeDeep({ ...sourceObjValue }, { ...otherObjValue })
+      } else {
+        sourceObj[key] = otherObjValue
+      }
+    })
+  })
+
+  return sourceObj
+}
