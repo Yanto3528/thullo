@@ -20,6 +20,10 @@ export const GlobalStyles = createGlobalStyle`
 
   a {
     text-decoration: none;
+    color: ${({ theme }) => theme.colors.primary};
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   ul {
