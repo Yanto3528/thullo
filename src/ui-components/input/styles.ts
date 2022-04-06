@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  gap: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.gray5};
   border-radius: ${({ theme }) => theme.radius.md};
   padding: 0.6em;
