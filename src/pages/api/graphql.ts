@@ -2,7 +2,7 @@ import { ApolloServer } from 'apollo-server-micro'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import Cors from 'micro-cors'
 
-import { typeDefs, resolvers } from '@/graphql'
+import { typeDefs, resolvers } from '@/lib/graphql'
 
 const cors = Cors()
 
