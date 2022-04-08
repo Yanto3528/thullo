@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 
 import { Text, Heading, Input, Button, Flex, Label } from '@/ui-components'
+import { useSignupUserMutation } from '@/lib/react-query/mutation'
 
 import { Wrapper, CardFormWrapper } from './styles'
 import { FormValues } from './types'
@@ -16,9 +17,10 @@ export const SignupForm = () => {
     formState: { errors },
   } = useForm<FormValues>()
 
-  const onSubmit = (data: FormValues) => {
-    // eslint-disable-next-line
-    console.log(data)
+  const mutation = useSignupUserMutation()
+
+  const onSubmit = async (data: FormValues) => {
+    mutation.mutate(data)
   }
 
   return (

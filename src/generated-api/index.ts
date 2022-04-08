@@ -27,6 +27,17 @@ export type List = {
   title?: Maybe<Scalars['String']>
 }
 
+export type Mutation = {
+  __typename?: 'Mutation'
+  signupUser?: Maybe<User>
+}
+
+export type MutationSignupUserArgs = {
+  email?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
+  password?: InputMaybe<Scalars['String']>
+}
+
 export type Query = {
   __typename?: 'Query'
   getCard?: Maybe<Card>
@@ -44,22 +55,26 @@ export type User = {
   name?: Maybe<Scalars['String']>
 }
 
-export type GetUserQueryVariables = Exact<{ [key: string]: never }>
+export type SignupUserMutationVariables = Exact<{
+  name?: InputMaybe<Scalars['String']>
+  email?: InputMaybe<Scalars['String']>
+  password?: InputMaybe<Scalars['String']>
+}>
 
-export type GetUserQuery = {
-  __typename?: 'Query'
-  getUser?: Array<{
+export type SignupUserMutation = {
+  __typename?: 'Mutation'
+  signupUser?: {
     __typename?: 'User'
     id?: string | null
     name?: string | null
     email?: string | null
     avatar?: string | null
-  } | null> | null
+  } | null
 }
 
-export const GetUserDocument = gql`
-  query getUser {
-    getUser {
+export const SignupUserDocument = gql`
+  mutation signupUser($name: String, $email: String, $password: String) {
+    signupUser(name: $name, email: $email, password: $password) {
       id
       name
       email
@@ -78,12 +93,18 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    getUser(variables?: GetUserQueryVariables, requestHeaders?: Dom.RequestInit['headers']): Promise<GetUserQuery> {
+    signupUser(
+      variables?: SignupUserMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<SignupUserMutation> {
       return withWrapper(
         (wrappedRequestHeaders) =>
-          client.request<GetUserQuery>(GetUserDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }),
-        'getUser',
-        'query'
+          client.request<SignupUserMutation>(SignupUserDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'signupUser',
+        'mutation'
       )
     },
   }
