@@ -10,6 +10,16 @@ export const queryClient = new QueryClient({
       refetchOnMount: false,
       refetchOnReconnect: false,
       retry: false,
+      onError: (error) => {
+        let errorMessage = ''
+        if (error instanceof ClientError) {
+          errorMessage = error?.response?.errors?.[0].message || ''
+        } else if (error instanceof Error) {
+          errorMessage = error.message
+        }
+
+        toast.error(errorMessage)
+      },
     },
     mutations: {
       retry: false,
