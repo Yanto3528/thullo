@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 
 import { Text, Heading, Input, Button, Flex, Label } from '@/ui-components'
+import { useLoginUserMutation } from '@/lib/react-query/mutation'
 
 import { Wrapper, CardFormWrapper } from './styles'
 import { FormValues } from './types'
@@ -16,9 +17,10 @@ export const LoginForm = () => {
     formState: { errors },
   } = useForm<FormValues>()
 
+  const mutation = useLoginUserMutation()
+
   const onSubmit = (data: FormValues) => {
-    // eslint-disable-next-line
-    console.log(data)
+    mutation.mutate(data)
   }
 
   return (
