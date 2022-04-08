@@ -4,6 +4,7 @@ import Cors from 'micro-cors'
 
 import { typeDefs, resolvers } from '@/lib/graphql'
 import { cookies } from '@/lib/cookie'
+import { isAuthenticated } from '@/lib/helpers'
 
 const cors = Cors()
 
@@ -14,6 +15,7 @@ const apolloServer = new ApolloServer({
   context: (ctx) => {
     return {
       cookie: ctx.res.cookie,
+      user: isAuthenticated(ctx.req),
     }
   },
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
