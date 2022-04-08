@@ -1,10 +1,18 @@
+import bcrypt from 'bcrypt'
 import { prisma } from './index'
 
 import { users } from '../data'
 
 async function main() {
+  const newUsers = await Promise.all(
+    users.map(async (user) => {
+      const hashedPassword = await bcrypt.hash(user.password, 10)
+      return { ...user, password: hashedPassword }
+    })
+  )
+
   await prisma.user.createMany({
-    data: users,
+    data: newUsers,
   })
 }
 
