@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query'
 
-import { signupUser } from '@/lib/api'
+import { getCurrentUser } from '@/lib/api'
 
 export const useGetUserQuery = () => {
-  return useQuery('users', () => signupUser())
+  return useQuery('current-user', () => getCurrentUser())
 }

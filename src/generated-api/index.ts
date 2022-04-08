@@ -47,8 +47,8 @@ export type MutationSignupUserArgs = {
 export type Query = {
   __typename?: 'Query'
   getCard?: Maybe<Card>
+  getCurrentUser?: Maybe<User>
   getList?: Maybe<List>
-  getUser?: Maybe<Array<Maybe<User>>>
 }
 
 export type User = {
@@ -59,6 +59,19 @@ export type User = {
   email?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['ID']>
   name?: Maybe<Scalars['String']>
+}
+
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetCurrentUserQuery = {
+  __typename?: 'Query'
+  getCurrentUser?: {
+    __typename?: 'User'
+    id?: string | null
+    name?: string | null
+    email?: string | null
+    avatar?: string | null
+  } | null
 }
 
 export type SignupUserMutationVariables = Exact<{
@@ -94,6 +107,16 @@ export type LoginUserMutation = {
   } | null
 }
 
+export const GetCurrentUserDocument = gql`
+  query getCurrentUser {
+    getCurrentUser {
+      id
+      name
+      email
+      avatar
+    }
+  }
+`
 export const SignupUserDocument = gql`
   mutation signupUser($name: String, $email: String, $password: String) {
     signupUser(name: $name, email: $email, password: $password) {
@@ -125,6 +148,20 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    getCurrentUser(
+      variables?: GetCurrentUserQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<GetCurrentUserQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetCurrentUserQuery>(GetCurrentUserDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'getCurrentUser',
+        'query'
+      )
+    },
     signupUser(
       variables?: SignupUserMutationVariables,
       requestHeaders?: Dom.RequestInit['headers']
