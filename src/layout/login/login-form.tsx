@@ -1,6 +1,7 @@
 import { Mail, Lock } from 'react-feather'
 import Image from 'next/image'
 import Link from 'next/link'
+import Router from 'next/router'
 import { useForm } from 'react-hook-form'
 
 import { Text, Heading, Input, Button, Flex, Label } from '@/ui-components'
@@ -19,8 +20,14 @@ export const LoginForm = () => {
 
   const mutation = useLoginUserMutation()
 
-  const onSubmit = (data: FormValues) => {
-    mutation.mutate(data)
+  const onSubmit = async (data: FormValues) => {
+    try {
+      await mutation.mutateAsync(data)
+      Router.push('/boards')
+    } catch (error) {
+      // eslint-disable-next-line
+      console.error(error)
+    }
   }
 
   return (
