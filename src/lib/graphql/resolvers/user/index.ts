@@ -3,10 +3,10 @@ import bcrypt from 'bcrypt'
 import { ApolloError } from 'apollo-server-micro'
 
 import { prisma } from '@/lib'
-import { signupValidationSchema } from '@/lib/graphql/validator'
+import { signupValidationSchema, loginValidationSchema } from '@/lib/graphql/validator'
 
 import { Context } from '../../types'
-import { SignupUserArgs } from './types'
+import { SignupUserArgs, LoginUserArgs } from './types'
 
 export const userResolvers = {
   Query: {
@@ -56,6 +56,41 @@ export const userResolvers = {
       })
 
       return newUser
+    },
+    loginUser: async (_parent: unknown, args: LoginUserArgs, ctx: Context) => {
+      const validationResult = loginValidationSchema.validate(args)
+      if (validationResult.error) {
+        throw new ApolloError(validationResult.error.message)
+      }
+
+      const { email, password } = args
+
+      const user = await prisma.user.findUnique({
+        where: {
+          email,
+        },
+      })
+      if (!user) {
+        throw new ApolloError('Invalid credentials')
+      }
+
+      const isPasswordMatch = await bcrypt.compare(password, user.password)
+      if (!isPasswordMatch) {
+        throw new ApolloError('Invalid credentials')
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, {
+        expiresIn: process.env.JWT_EXPIRES,
+      })
+
+      ctx.cookie('token', token, {
+        path: '/',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+      })
+
+      return user
     },
   },
 }

@@ -7,4 +7,4 @@ const client = new GraphQLClient(process.env.NEXT_PUBLIC_ENDPOINT!)
 
 const allApis = getSdk(client)
 
-export const { signupUser } = allApis
+export const { signupUser, loginUser } = allApis
