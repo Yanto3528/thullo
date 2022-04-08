@@ -1,5 +1,5 @@
-query getUser {
-  getUser {
+mutation signupUser($name: String, $email: String, $password: String) {
+  signupUser(name: $name, email: $email, password: $password) {
     id
     name
     email
