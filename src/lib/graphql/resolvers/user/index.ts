@@ -10,10 +10,22 @@ import { SignupUserArgs, LoginUserArgs } from './types'
 
 export const userResolvers = {
   Query: {
-    getUser: async () => {
-      const users = await prisma.user.findMany()
+    getCurrentUser: async (_parent: unknown, _args: unknown, ctx: Context) => {
+      if (!ctx.user) {
+        throw new ApolloError('Forbidden to access this resource')
+      }
 
-      return users.map((user) => ({ ...user, cards: [{ id: user.id }] }))
+      const user = await prisma.user.findFirst({
+        where: {
+          id: ctx.user.id,
+        },
+      })
+
+      if (!user) {
+        throw new ApolloError('User does not exists.')
+      }
+
+      return user
     },
   },
   Mutation: {
