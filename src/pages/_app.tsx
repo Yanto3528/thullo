@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'styled-components'
 import { Hydrate, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { Toaster } from 'react-hot-toast'
 
 import { queryClient } from '@/lib/react-query'
 import { GlobalStyles } from '../styles/global-styles'
@@ -18,6 +19,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
+      <Toaster />
     </ThemeProvider>
   )
 }
