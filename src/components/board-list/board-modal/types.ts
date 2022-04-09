@@ -1,21 +1,15 @@
 import { ModalProps } from '@/ui-components'
 
 export interface BoardModalProps extends ModalProps {
-  onAddNewBoard: (data: BoardFormValues) => void
+  onAddNewBoard: (data: AddNewBoardData) => void
 }
 
 export interface BoardFormValues {
   title: string
+  coverImage: File | string
 }
 
-export interface ImageUploadData {
-  fileId: string
-  filePath: string
-  fileType: string
-  height: number
-  width: number
-  name: string
-  size: number
-  thumbnailUrl: string
-  url: string
+export interface AddNewBoardData {
+  title: string
+  coverImage?: string
 }
