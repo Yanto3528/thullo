@@ -26,3 +26,8 @@ export const MediaQuery = {
   /** @media(max-width: 320px) */
   SMALLEST: getMediaQuery(320),
 }
+
+export enum Visibility {
+  Private = 'PRIVATE',
+  Public = 'PUBLIC',
+}

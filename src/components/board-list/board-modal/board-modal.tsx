@@ -3,20 +3,23 @@ import { Image as ImageIcon, Lock, Plus } from 'react-feather'
 import { useForm, Controller, ControllerRenderProps } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-import { Modal, Input, Flex, Button } from '@/ui-components'
+import { Modal, Input, Flex, Button, ModalProps } from '@/ui-components'
+import { useCreateBoardMutation } from '@/lib/react-query/mutation'
 import { imagekitClient } from '@/lib/imagekit/client'
+import { Visibility } from '@/constants'
 
 import { ImagePlaceholder, CoverUploadLabel, UploadIconContainer } from './styles'
-import { BoardModalProps, BoardFormValues } from './types'
+import { BoardFormValues } from './types'
 
 const tempImageSrc =
   'https://images.unsplash.com/photo-1569098644584-210bcd375b59?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
 
-export const BoardModal: React.FC<BoardModalProps> = ({ onClose, onAddNewBoard, ...props }) => {
+export const BoardModal: React.FC<ModalProps> = ({ onClose, ...props }) => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>('')
   const [fileValue, setFileValue] = useState('')
 
   const { register, reset, handleSubmit, control } = useForm<BoardFormValues>()
+  const mutation = useCreateBoardMutation()
 
   const onSubmit = async (data: BoardFormValues) => {
     if (data.coverImage && data.coverImage instanceof File) {
@@ -33,7 +36,7 @@ export const BoardModal: React.FC<BoardModalProps> = ({ onClose, onAddNewBoard, 
             return
           }
 
-          onAddNewBoard({ ...data, coverImage: result?.url })
+          mutation.mutate({ ...data, visibility: Visibility.Private, coverImage: result?.url })
           reset({
             title: '',
             coverImage: '',
@@ -42,7 +45,7 @@ export const BoardModal: React.FC<BoardModalProps> = ({ onClose, onAddNewBoard, 
         }
       )
     } else {
-      onAddNewBoard({ ...data, coverImage: undefined })
+      mutation.mutate({ ...data, visibility: Visibility.Private, coverImage: undefined })
       reset({
         title: '',
         coverImage: '',

@@ -15,6 +15,26 @@ export type Scalars = {
   Float: number
 }
 
+export type Board = {
+  __typename?: 'Board'
+  admin?: Maybe<User>
+  coverImage?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['String']>
+  id: Scalars['ID']
+  labels?: Maybe<Array<Maybe<Scalars['String']>>>
+  listOrders?: Maybe<Array<Maybe<Scalars['String']>>>
+  lists?: Maybe<Array<Maybe<Scalars['String']>>>
+  members?: Maybe<Array<Maybe<BoardUser>>>
+  title: Scalars['String']
+  updatedAt?: Maybe<Scalars['String']>
+  visibility?: Maybe<Visibility>
+}
+
+export type BoardUser = {
+  __typename?: 'BoardUser'
+  user?: Maybe<User>
+}
+
 export type Card = {
   __typename?: 'Card'
   id?: Maybe<Scalars['ID']>
@@ -29,8 +49,15 @@ export type List = {
 
 export type Mutation = {
   __typename?: 'Mutation'
+  createBoard?: Maybe<Board>
   loginUser?: Maybe<User>
   signupUser?: Maybe<User>
+}
+
+export type MutationCreateBoardArgs = {
+  coverImage?: InputMaybe<Scalars['String']>
+  title?: InputMaybe<Scalars['String']>
+  visibility?: InputMaybe<Visibility>
 }
 
 export type MutationLoginUserArgs = {
@@ -59,6 +86,31 @@ export type User = {
   email?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['ID']>
   name?: Maybe<Scalars['String']>
+}
+
+export enum Visibility {
+  Private = 'PRIVATE',
+  Public = 'PUBLIC',
+}
+
+export type CreateBoardMutationVariables = Exact<{
+  title: Scalars['String']
+  visibility: Visibility
+  coverImage?: InputMaybe<Scalars['String']>
+}>
+
+export type CreateBoardMutation = {
+  __typename?: 'Mutation'
+  createBoard?: {
+    __typename?: 'Board'
+    id: string
+    title: string
+    coverImage?: string | null
+    members?: Array<{
+      __typename?: 'BoardUser'
+      user?: { __typename?: 'User'; id?: string | null; avatar?: string | null; name?: string | null } | null
+    } | null> | null
+  } | null
 }
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>
@@ -107,6 +159,22 @@ export type LoginUserMutation = {
   } | null
 }
 
+export const CreateBoardDocument = gql`
+  mutation createBoard($title: String!, $visibility: Visibility!, $coverImage: String) {
+    createBoard(title: $title, visibility: $visibility, coverImage: $coverImage) {
+      id
+      title
+      coverImage
+      members {
+        user {
+          id
+          avatar
+          name
+        }
+      }
+    }
+  }
+`
 export const GetCurrentUserDocument = gql`
   query getCurrentUser {
     getCurrentUser {
@@ -148,6 +216,20 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    createBoard(
+      variables: CreateBoardMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<CreateBoardMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateBoardMutation>(CreateBoardDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'createBoard',
+        'mutation'
+      )
+    },
     getCurrentUser(
       variables?: GetCurrentUserQueryVariables,
       requestHeaders?: Dom.RequestInit['headers']

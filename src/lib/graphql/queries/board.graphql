@@ -1,0 +1,14 @@
+mutation createBoard($title: String!, $visibility: Visibility!, $coverImage: String) {
+  createBoard(title: $title, visibility: $visibility, coverImage: $coverImage) {
+    id
+    title
+    coverImage
+    members {
+      user {
+        id
+        avatar
+        name
+      }
+    }
+  }
+}
