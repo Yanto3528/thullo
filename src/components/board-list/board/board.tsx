@@ -15,7 +15,7 @@ export const Board = ({ board }: BoardProps) => {
   return (
     <Card cursor='pointer' onClick={onBoardClick}>
       <Card.Body>
-        <StyledImage src={board.coverImage || tempImageSrc} width={219} height={130} />
+        <StyledImage src={board.coverImage || tempImageSrc} width={219} height={130} layout='responsive' />
         <Heading as='h3' size='1.6rem' customStyle={{ margin: '1.2rem 0 2.1rem 0' }}>
           {board.title}
         </Heading>
