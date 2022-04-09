@@ -1,4 +1,5 @@
 import Router from 'next/router'
+
 import { Card, Heading, AvatarGroup, Avatar } from '@/ui-components'
 
 import { StyledImage } from './styles'

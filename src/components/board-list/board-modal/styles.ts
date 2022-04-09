@@ -27,14 +27,12 @@ export const CoverUploadLabel = styled.label`
   font-size: 1.2rem;
   display: flex;
   align-items: center;
-`
 
-export const CoverUpload = styled.input.attrs(() => ({
-  type: 'file',
-}))`
-  width: 0;
-  height: 0;
-  opacity: 0;
+  input[type='file'] {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
 `
 
 export const UploadIconContainer = styled.div`
