@@ -5,14 +5,14 @@ import { Avatar, Button } from '@/ui-components'
 import { calculateTextareaRows } from '@/utils'
 
 import { FormWrapper, TextareaContainer, StyledTextarea, AvatarContainer, ButtonContainer } from './styles'
-import { FormValues, onChangeTextarea, TextareaEvent, CommentFormProps } from './types'
+import { FormValues, OnChangeTextarea, TextareaEvent, CommentFormProps } from './types'
 
 export const CommentForm = ({ onAddNewComment }: CommentFormProps) => {
   const [rows, setRows] = useState(1)
 
   const { handleSubmit, control, reset } = useForm<FormValues>()
 
-  const handleChange = (onChangeFn: onChangeTextarea) => {
+  const handleChange = (onChangeFn: OnChangeTextarea) => {
     return (event: TextareaEvent) => {
       const currentRows = calculateTextareaRows(event.target)
 
