@@ -24,6 +24,10 @@ export const BoardTypeDefs = gql`
     PUBLIC
   }
 
+  type Query {
+    getBoards: [Board]
+  }
+
   type Mutation {
     createBoard(title: String, visibility: Visibility, coverImage: String): Board
   }

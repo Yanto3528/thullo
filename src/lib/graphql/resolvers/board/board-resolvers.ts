@@ -6,6 +6,34 @@ import { Context } from '../../types'
 import { CreateBoardArgs } from './types'
 
 export const boardResolvers = {
+  Query: {
+    getBoards: async (_parent: unknown, _args: unknown, ctx: Context) => {
+      if (!ctx.user) {
+        throw new ApolloError('Not authorized to get all boards')
+      }
+
+      const boards = await prisma.board.findMany({
+        where: {
+          members: {
+            every: {
+              user: {
+                id: ctx.user.id,
+              },
+            },
+          },
+        },
+        include: {
+          members: {
+            select: {
+              user: true,
+            },
+          },
+        },
+      })
+
+      return boards
+    },
+  },
   Mutation: {
     createBoard: async (_parent: unknown, args: CreateBoardArgs, ctx: Context) => {
       if (!ctx.user) {
