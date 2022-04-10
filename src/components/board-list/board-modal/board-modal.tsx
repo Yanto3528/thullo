@@ -45,7 +45,7 @@ export const BoardModal: React.FC<ModalProps> = ({ onClose, ...props }) => {
         }
       )
     } else {
-      mutation.mutate({ ...data, visibility: Visibility.Private, coverImage: undefined })
+      mutation.mutate({ ...data, visibility: Visibility.Public, coverImage: undefined })
       reset({
         title: '',
         coverImage: '',
