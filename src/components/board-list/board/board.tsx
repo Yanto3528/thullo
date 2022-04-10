@@ -21,10 +21,16 @@ export const Board = ({ board }: BoardProps) => {
           {board.title}
         </Heading>
         <AvatarGroup>
-          <Avatar src={tempImageSrc} />
-          <Avatar src={tempImageSrc} />
-          <Avatar src={tempImageSrc} />
-          <Avatar src={tempImageSrc} />
+          {board.members &&
+            board.members.map((member) => {
+              if (!member?.user) {
+                return null
+              }
+
+              const { user } = member
+
+              return <Avatar name={user.name || ''} src={user.avatar || ''} alt={user.name || ''} />
+            })}
         </AvatarGroup>
       </Card.Body>
     </Card>

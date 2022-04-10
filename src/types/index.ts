@@ -23,6 +23,10 @@ export interface Color {
   lightGreen: string
 }
 
+export interface BoardMember {
+  user: IUser | null
+}
+
 export interface Radius {
   sm: string
   md: string
@@ -36,11 +40,19 @@ export interface CardType {
   title: string
 }
 
-export interface BoardType {
+export interface IUser {
+  id: string
+  name: string
+  email: string
+  avatar: string
+}
+
+export interface IBoard {
   id: string
   title: string
-  coverImage?: string
+  coverImage?: string | null
   visibility?: string
+  members?: Maybe<BoardMember[]> | null
 }
 
 export interface CommentType {
@@ -52,3 +64,5 @@ export interface CommentType {
   createdAt: Date
   content: string
 }
+
+type Maybe<T> = T | null

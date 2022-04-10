@@ -1,10 +1,8 @@
-import { useState } from 'react'
 import { Plus } from 'react-feather'
 
 import { Heading, Flex, Grid, Button } from '@/ui-components'
 import { useToggle } from '@/hooks'
-import { generateId } from '@/utils'
-import { BoardType } from '@/types'
+import { useGetBoardsQuery } from '@/lib/react-query/query'
 
 import { Board } from './board'
 import { BoardModal } from './board-modal'
@@ -12,18 +10,7 @@ import { Wrapper } from './styles'
 
 export const BoardList = () => {
   const [showModal, { onOpen, onClose }] = useToggle()
-  const [boards, setBoards] = useState<BoardType[]>([])
-
-  const onAddNewBoard = (data: { title: string }) => {
-    const id = generateId()
-    const newBoard = {
-      ...data,
-      id,
-      coverImage: '',
-      visibility: 'public',
-    }
-    setBoards((currentBoards) => [...currentBoards, newBoard])
-  }
+  const { data: boards } = useGetBoardsQuery()
 
   return (
     <Wrapper>
@@ -35,12 +22,18 @@ export const BoardList = () => {
           <Plus size='1.6rem' /> Add
         </Button>
       </Flex>
-      <Grid gap='4.2rem' columns={{ '2xl': 4, xl: 3, lg: 2, md: 1 }}>
-        {boards.map((board) => (
-          <Board key={board.id} board={board} />
-        ))}
-      </Grid>
-      <BoardModal isOpen={showModal} onClose={onClose} onAddNewBoard={onAddNewBoard} />
+      {boards && (
+        <Grid gap='4.2rem' columns={{ '2xl': 4, xl: 3, lg: 2, md: 1 }}>
+          {boards.map((board) => {
+            if (!board) {
+              return null
+            }
+
+            return <Board key={board.id} board={board} />
+          })}
+        </Grid>
+      )}
+      <BoardModal isOpen={showModal} onClose={onClose} />
     </Wrapper>
   )
 }

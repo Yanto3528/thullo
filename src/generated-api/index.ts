@@ -73,6 +73,7 @@ export type MutationSignupUserArgs = {
 
 export type Query = {
   __typename?: 'Query'
+  getBoards?: Maybe<Array<Maybe<Board>>>
   getCard?: Maybe<Card>
   getCurrentUser?: Maybe<User>
   getList?: Maybe<List>
@@ -91,6 +92,22 @@ export type User = {
 export enum Visibility {
   Private = 'PRIVATE',
   Public = 'PUBLIC',
+}
+
+export type GetBoardsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetBoardsQuery = {
+  __typename?: 'Query'
+  getBoards?: Array<{
+    __typename?: 'Board'
+    id: string
+    title: string
+    coverImage?: string | null
+    members?: Array<{
+      __typename?: 'BoardUser'
+      user?: { __typename?: 'User'; id?: string | null; avatar?: string | null; name?: string | null } | null
+    } | null> | null
+  } | null> | null
 }
 
 export type CreateBoardMutationVariables = Exact<{
@@ -159,6 +176,22 @@ export type LoginUserMutation = {
   } | null
 }
 
+export const GetBoardsDocument = gql`
+  query getBoards {
+    getBoards {
+      id
+      title
+      coverImage
+      members {
+        user {
+          id
+          avatar
+          name
+        }
+      }
+    }
+  }
+`
 export const CreateBoardDocument = gql`
   mutation createBoard($title: String!, $visibility: Visibility!, $coverImage: String) {
     createBoard(title: $title, visibility: $visibility, coverImage: $coverImage) {
@@ -216,6 +249,17 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    getBoards(
+      variables?: GetBoardsQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<GetBoardsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetBoardsQuery>(GetBoardsDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }),
+        'getBoards',
+        'query'
+      )
+    },
     createBoard(
       variables: CreateBoardMutationVariables,
       requestHeaders?: Dom.RequestInit['headers']
