@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server-core'
 
 import { prisma } from '@/lib/prisma'
 
-import { Context } from '../../types'
+import { Context } from '../types'
 import { CreateBoardArgs } from './types'
 
 export const boardResolvers = {

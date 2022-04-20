@@ -2,6 +2,7 @@ import { ApolloServer } from 'apollo-server-micro'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import Cors from 'micro-cors'
 
+import { connectDB } from '@/db'
 import { typeDefs, resolvers } from '@/lib/graphql'
 import { cookies } from '@/lib/cookie'
 import { isAuthenticated } from '@/lib/helpers'
@@ -35,6 +36,7 @@ export default cookies(
     await apolloServer.createHandler({
       path: '/api/graphql',
     })(req, res)
+    await connectDB()
   })
 )
 

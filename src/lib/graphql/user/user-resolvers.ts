@@ -1,11 +1,10 @@
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
 import { ApolloError } from 'apollo-server-micro'
 
-import { prisma } from '@/lib'
-import { signupValidationSchema, loginValidationSchema } from '@/lib/graphql/validator'
+import { User } from '@/models'
+import { signupValidationSchema, loginValidationSchema } from '@/lib/validator'
 
-import { Context } from '../../types'
+import { Context } from '../types'
 import { SignupUserArgs, LoginUserArgs } from './types'
 
 const COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000 // 7 days
@@ -17,11 +16,7 @@ export const userResolvers = {
         throw new ApolloError('Forbidden to access this resource')
       }
 
-      const user = await prisma.user.findFirst({
-        where: {
-          id: ctx.user.id,
-        },
-      })
+      const user = await User.findById(ctx.user.id)
 
       if (!user) {
         throw new ApolloError('User does not exists.')
@@ -39,24 +34,17 @@ export const userResolvers = {
 
       const { name, email, password } = args
 
-      const existingUser = await prisma.user.findUnique({
-        where: {
-          email,
-        },
-      })
+      const existingUser = await User.findOne({ email })
       if (existingUser) {
         throw new ApolloError('User already exists.')
       }
 
-      const hashedPassword = await bcrypt.hash(password, 10)
-
-      const newUser = await prisma.user.create({
-        data: {
-          name,
-          email,
-          password: hashedPassword,
-        },
+      const newUser = User.build({
+        name,
+        email,
+        password,
       })
+      await newUser.save()
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET!, {
@@ -80,16 +68,12 @@ export const userResolvers = {
 
       const { email, password } = args
 
-      const user = await prisma.user.findUnique({
-        where: {
-          email,
-        },
-      })
+      const user = await User.findOne({ email })
       if (!user) {
         throw new ApolloError('Invalid credentials')
       }
 
-      const isPasswordMatch = await bcrypt.compare(password, user.password)
+      const isPasswordMatch = await user.matchPassword(password, user.password)
       if (!isPasswordMatch) {
         throw new ApolloError('Invalid credentials')
       }
