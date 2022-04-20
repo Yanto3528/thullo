@@ -6,8 +6,8 @@ query getLists {
   }
 }
 
-mutation createList($title: String!) {
-  createList(title: $title) {
+mutation createList($boardId: ID!, $title: String!) {
+  createList(boardId: $boardId, title: $title) {
     id
     title
     cardOrders
@@ -15,7 +15,7 @@ mutation createList($title: String!) {
 }
 
 mutation updateList($id: ID!, $title: String, $cardOrders: [String]) {
-  createList(id: $id, title: $title, cardOrders: $cardOrders) {
+  updateList(id: $id, title: $title, cardOrders: $cardOrders) {
     id
     title
     cardOrders
