@@ -11,7 +11,7 @@ export const ListTypeDefs = gql`
   }
 
   type Query {
-    getLists: [List]
+    getLists(boardId: ID!): [List]
   }
 
   type Mutation {

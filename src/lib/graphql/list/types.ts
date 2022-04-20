@@ -1,3 +1,7 @@
+export interface GetListsArgs {
+  boardId: string
+}
+
 export interface CreateListArgs {
   boardId: string
   title: string

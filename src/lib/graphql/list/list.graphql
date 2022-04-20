@@ -1,5 +1,5 @@
-query getLists {
-  getLists {
+query getLists($boardId: ID!) {
+  getLists(boardId: $boardId) {
     id
     title
     cardOrders

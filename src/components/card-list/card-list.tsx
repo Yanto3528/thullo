@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { DragDropContext, Droppable, DropResult, DragStart, DragUpdate } from 'react-beautiful-dnd'
 import { produce } from 'immer'
 import NoSSR from 'react-no-ssr'
+import { useRouter } from 'next/router'
 
 import { Flex } from '@/ui-components'
 import { CardType } from '@/types'
 import { generateId } from '@/utils'
+import { useGetListsQuery, useCreateListMutation } from '@/lib/react-query/list'
 
 import { List } from './list'
 import { AddListForm } from './add-list-form'
@@ -53,29 +55,29 @@ export const CardList = () => {
   const [state, setState] = useState<CardListState>(cardListState)
   const [placeholderProps, setPlaceholderProps] = useState<CustomPlaceholderProps | null>(null)
 
-  const onAddNewList = (data: AddNewList) => {
-    const listId = generateId()
+  const router = useRouter()
+  const boardId = router.query.id as string
 
-    setState((currentState) => {
-      return produce(currentState, (draft) => {
-        draft.list[listId] = {
-          id: listId,
-          title: data.title,
-          cardIds: [],
-        }
-        draft.listOrders.push(listId)
-      })
+  const { data } = useGetListsQuery(boardId)
+  const createMutation = useCreateListMutation()
+
+  console.log('list data: ', data)
+
+  const onAddNewList = (newListData: AddNewList) => {
+    createMutation.mutate({
+      boardId,
+      title: newListData.title,
     })
   }
 
   const onAddNewCard = (listId: string) => {
-    return (data: Omit<CardType, 'id'>) => {
+    return (newCardData: Omit<CardType, 'id'>) => {
       const cardId = generateId()
 
       setState((currentState) => {
         return produce(currentState, (draft) => {
           draft.cards[cardId] = {
-            ...data,
+            ...newCardData,
             id: cardId,
           }
           draft.list[listId].cardIds.push(cardId)

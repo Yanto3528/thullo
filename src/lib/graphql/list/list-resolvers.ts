@@ -4,18 +4,20 @@ import { List } from '@/models'
 
 import { Context } from '../types'
 import { createListValidationSchema } from './validator'
-import { CreateListArgs, UpdateListArgs } from './types'
+import { GetListsArgs, CreateListArgs, UpdateListArgs } from './types'
 
 export const listResolvers = {
   Query: {
-    getLists: async (_parent: unknown, _args: unknown, ctx: Context) => {
+    getLists: async (_parent: unknown, args: GetListsArgs, ctx: Context) => {
       if (!ctx.user) {
         throw new ApolloError('Not authorized to get all lists')
       }
 
+      const { boardId } = args
+
       const lists = await List.find({
-        members: ctx.user.id,
-      }).populate('members')
+        board: boardId,
+      })
 
       return lists
     },
