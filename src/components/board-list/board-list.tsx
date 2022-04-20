@@ -12,6 +12,8 @@ export const BoardList = () => {
   const [showModal, { onOpen, onClose }] = useToggle()
   const { data: boards } = useGetBoardsQuery()
 
+  console.log('boards: ', boards)
+
   return (
     <Wrapper>
       <Flex justify='space-between' margin='0 0 3.6rem 0'>

@@ -65,9 +65,4 @@ export interface CommentType {
   content: string
 }
 
-export enum Visibility {
-  Private = 'Private',
-  Public = 'Public',
-}
-
 type Maybe<T> = T | null

@@ -28,6 +28,6 @@ export const MediaQuery = {
 }
 
 export enum Visibility {
-  Private = 'PRIVATE',
-  Public = 'PUBLIC',
+  Private = 'Private',
+  Public = 'Public',
 }

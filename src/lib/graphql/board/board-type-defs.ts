@@ -11,17 +11,13 @@ export const BoardTypeDefs = gql`
     listOrders: [String]
     lists: [String]
     labels: [String]
-    members: [BoardUser]
+    members: [User]
     admin: User
   }
 
-  type BoardUser {
-    user: User
-  }
-
   enum Visibility {
-    PRIVATE
-    PUBLIC
+    Private
+    Public
   }
 
   type Query {

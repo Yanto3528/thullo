@@ -4,11 +4,9 @@ query getBoards {
     title
     coverImage
     members {
-      user {
-        id
-        avatar
-        name
-      }
+      id
+      name
+      avatar
     }
   }
 }
@@ -18,12 +16,5 @@ mutation createBoard($title: String!, $visibility: Visibility!, $coverImage: Str
     id
     title
     coverImage
-    members {
-      user {
-        id
-        avatar
-        name
-      }
-    }
   }
 }

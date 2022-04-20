@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { Visibility } from '@/types'
+import { Visibility } from '@/constants'
 import { BoardAttrs, BoardDoc, BoardModel } from './types'
 
 const BoardSchema = new mongoose.Schema(

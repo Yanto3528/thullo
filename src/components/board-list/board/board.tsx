@@ -23,13 +23,13 @@ export const Board = ({ board }: BoardProps) => {
         <AvatarGroup>
           {board.members &&
             board.members.map((member) => {
-              if (!member?.user) {
+              if (!member) {
                 return null
               }
 
-              const { user } = member
-
-              return <Avatar name={user.name || ''} src={user.avatar || ''} alt={user.name || ''} />
+              return (
+                <Avatar key={member.id} name={member.name || ''} src={member.avatar || ''} alt={member.name || ''} />
+              )
             })}
         </AvatarGroup>
       </Card.Body>
