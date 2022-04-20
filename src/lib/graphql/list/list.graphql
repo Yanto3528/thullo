@@ -1,0 +1,23 @@
+query getLists {
+  getLists {
+    id
+    title
+    cardOrders
+  }
+}
+
+mutation createList($title: String!) {
+  createList(title: $title) {
+    id
+    title
+    cardOrders
+  }
+}
+
+mutation updateList($id: ID!, $title: String, $cardOrders: [String]) {
+  createList(id: $id, title: $title, cardOrders: $cardOrders) {
+    id
+    title
+    cardOrders
+  }
+}

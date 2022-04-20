@@ -8,7 +8,7 @@ const ListSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    cardIds: [
+    cardOrders: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Card',

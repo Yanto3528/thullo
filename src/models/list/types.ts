@@ -1,6 +1,7 @@
 import { Document, Model } from 'mongoose'
 
 export interface ListAttrs {
+  board: string
   title: string
 }
 

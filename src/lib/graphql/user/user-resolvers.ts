@@ -2,9 +2,8 @@ import jwt from 'jsonwebtoken'
 import { ApolloError } from 'apollo-server-micro'
 
 import { User } from '@/models'
-import { signupValidationSchema, loginValidationSchema } from '@/lib/validator'
-
 import { Context } from '../types'
+import { signupValidationSchema, loginValidationSchema } from './validator'
 import { SignupUserArgs, LoginUserArgs } from './types'
 
 const COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000 // 7 days

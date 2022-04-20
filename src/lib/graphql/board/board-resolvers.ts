@@ -3,6 +3,7 @@ import { ApolloError } from 'apollo-server-core'
 import { Board } from '@/models'
 
 import { Context } from '../types'
+import { createBoardValidationSchema } from './validator'
 import { CreateBoardArgs } from './types'
 
 export const boardResolvers = {
@@ -23,6 +24,11 @@ export const boardResolvers = {
     createBoard: async (_parent: unknown, args: CreateBoardArgs, ctx: Context) => {
       if (!ctx.user) {
         throw new ApolloError('Not authorized to create board')
+      }
+
+      const validationResult = createBoardValidationSchema.validate(args)
+      if (validationResult.error) {
+        throw new ApolloError(validationResult.error.message)
       }
 
       const { title, visibility, coverImage } = args
