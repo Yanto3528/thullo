@@ -1,2 +1,2 @@
-export * from './card-model'
+export * from './label-model'
 export * from './types'
