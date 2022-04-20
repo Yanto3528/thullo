@@ -2,7 +2,7 @@ import { Plus } from 'react-feather'
 
 import { Heading, Flex, Grid, Button } from '@/ui-components'
 import { useToggle } from '@/hooks'
-import { useGetBoardsQuery } from '@/lib/react-query/query'
+import { useGetBoardsQuery } from '@/lib/react-query/board'
 
 import { Board } from './board'
 import { BoardModal } from './board-modal'

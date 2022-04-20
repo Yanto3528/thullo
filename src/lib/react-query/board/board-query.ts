@@ -1,6 +1,14 @@
-import { useMutation, useQueryClient } from 'react-query'
-import { createBoard } from '@/lib/api'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
+import { getBoards, createBoard } from '@/lib/api'
 import { Board, CreateBoardMutationVariables } from '@/generated-api'
+
+export const useGetBoardsQuery = () => {
+  return useQuery('boards', async () => {
+    const result = await getBoards()
+
+    return result.getBoards
+  })
+}
 
 export const useCreateBoardMutation = () => {
   const queryClient = useQueryClient()

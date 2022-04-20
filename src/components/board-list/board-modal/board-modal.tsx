@@ -4,7 +4,7 @@ import { useForm, Controller, ControllerRenderProps } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 import { Modal, Input, Flex, Button, ModalProps } from '@/ui-components'
-import { useCreateBoardMutation } from '@/lib/react-query/mutation'
+import { useCreateBoardMutation } from '@/lib/react-query/board'
 import { imagekitClient } from '@/lib/imagekit/client'
 import { Visibility } from '@/constants'
 

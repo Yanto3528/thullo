@@ -1,6 +1,6 @@
 import { Navbar, BoardList } from '@/components'
 import { Container, GrayBody } from '@/styles/components'
-import { useGetUserQuery } from '@/lib/react-query/query'
+import { useGetUserQuery } from '@/lib/react-query/user'
 
 const BoardsPage = () => {
   const { data } = useGetUserQuery()

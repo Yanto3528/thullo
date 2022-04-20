@@ -5,7 +5,7 @@ import Router from 'next/router'
 import { useForm } from 'react-hook-form'
 
 import { Text, Heading, Input, Button, Flex, Label } from '@/ui-components'
-import { useSignupUserMutation } from '@/lib/react-query/mutation'
+import { useSignupUserMutation } from '@/lib/react-query/user'
 
 import { Wrapper, CardFormWrapper } from './styles'
 import { FormValues } from './types'
