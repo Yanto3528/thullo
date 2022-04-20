@@ -34,7 +34,10 @@
     "no-shadow": "off",
     "no-param-reassign": "off",
     "no-unused-vars": "off",
+    "no-underscore-dangle": "off",
+    "func-names": "off",
     "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-non-null-assertion": "off",
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
