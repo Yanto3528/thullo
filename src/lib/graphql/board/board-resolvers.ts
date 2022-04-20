@@ -16,27 +16,6 @@ export const boardResolvers = {
         members: ctx.user.id,
       }).populate('members')
 
-      console.log('boards: ', boards[0].members)
-
-      // const boards = await prisma.board.findMany({
-      //   where: {
-      //     members: {
-      //       every: {
-      //         user: {
-      //           id: ctx.user.id,
-      //         },
-      //       },
-      //     },
-      //   },
-      //   include: {
-      //     members: {
-      //       select: {
-      //         user: true,
-      //       },
-      //     },
-      //   },
-      // })
-
       return boards
     },
   },
@@ -56,33 +35,6 @@ export const boardResolvers = {
         admin: ctx.user.id,
       })
       await board.save()
-
-      // const board = await prisma.board.create({
-      //   data: {
-      //     title,
-      //     coverImage,
-      //     visibility,
-      //     adminId: ctx.user.id,
-      //     members: {
-      //       create: [
-      //         {
-      //           user: {
-      //             connect: {
-      //               id: ctx.user.id,
-      //             },
-      //           },
-      //         },
-      //       ],
-      //     },
-      //   },
-      //   include: {
-      //     members: {
-      //       select: {
-      //         user: true,
-      //       },
-      //     },
-      //   },
-      // })
 
       return board
     },
